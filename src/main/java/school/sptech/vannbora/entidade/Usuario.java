@@ -1,5 +1,7 @@
 package school.sptech.vannbora.entidade;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,4 +35,8 @@ public class Usuario {
     @Column
     @NotBlank
     private String senha;
+
+    @Column
+    @NotBlank
+    private LocalDate dataNascimento;
 }

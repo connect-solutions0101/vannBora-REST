@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import school.sptech.vannbora.entidade.Usuario;
+import school.sptech.vannbora.interfaces.ISorter;
 import school.sptech.vannbora.repository.UsuarioRepository;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements ISorter<Usuario> {
     
     @Autowired
     private UsuarioRepository repository;
@@ -33,5 +34,20 @@ public class UsuarioService {
 
     public void deletar(int id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public void sort(Usuario[] array) {
+        for (int i = 0; i < array.length - 1; i++) {
+            int idxMaior = i;
+            for (int j = i+1; j < array.length; j++) {
+              if (array[j].getDataNascimento().isBefore(array[idxMaior].getDataNascimento())) {
+                idxMaior = j;
+              }
+            }
+            var aux = array[i];
+            array[i] = array[idxMaior];
+            array[idxMaior] = aux;
+          }
     }
 }
