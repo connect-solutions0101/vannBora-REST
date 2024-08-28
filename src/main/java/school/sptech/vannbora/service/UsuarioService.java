@@ -3,6 +3,7 @@ package school.sptech.vannbora.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import school.sptech.vannbora.entidade.Usuario;
@@ -11,29 +12,38 @@ import school.sptech.vannbora.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService implements ISorter<Usuario> {
-    
+
     @Autowired
     private UsuarioRepository repository;
 
-    public List<Usuario> listar() {
-        return repository.findAll();
+    public ResponseEntity<List<Usuario>> listar() {
+        List<Usuario> usuarios = repository.findAll();
+        return ResponseEntity.status(200).body(usuarios);
     }
 
-    public Usuario buscarPorEmailESenha(String email, String senha) {
-        return repository.findByEmailAndSenha(email, senha);
+    public ResponseEntity<Usuario> buscarPorEmailESenha(String email, String senha) {
+        Usuario usuario = repository.findByEmailAndSenha(email, senha);
+        if (usuario != null) {
+            return ResponseEntity.status(200).body(usuario);
+        } else {
+            return ResponseEntity.status(404).build();
+        }
     }
 
-    public Usuario cadastrar(Usuario usuario) {
-        return repository.save(usuario);
+    public ResponseEntity<Usuario> cadastrar(Usuario usuario) {
+        Usuario novoUsuario = repository.save(usuario);
+        return ResponseEntity.status(201).body(novoUsuario);
     }
 
-    public Usuario atualizar(int id, Usuario usuario) {
+    public ResponseEntity<Usuario> atualizar(int id, Usuario usuario) {
         usuario.setId(id);
-        return repository.save(usuario);
+        Usuario usuarioAtualizado = repository.save(usuario);
+        return ResponseEntity.status(200).body(usuarioAtualizado);
     }
 
-    public void deletar(int id) {
+    public ResponseEntity<Void> deletar(int id) {
         repository.deleteById(id);
+        return ResponseEntity.status(204).build();
     }
 
     @Override

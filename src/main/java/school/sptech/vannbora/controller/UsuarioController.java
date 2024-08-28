@@ -3,6 +3,7 @@ package school.sptech.vannbora.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,27 +29,27 @@ public class UsuarioController {
     private UsuarioService service;
 
     @GetMapping    
-    public List<Usuario> listar() {
+    public ResponseEntity<List<Usuario>> listar() {
         return service.listar();
     }
 
     @GetMapping("/{email}/{senha}")
-    public Usuario buscarPorEmailESenha(@PathVariable String email, @PathVariable String senha) {
+    public ResponseEntity<Usuario> buscarPorEmailESenha(@PathVariable String email, @PathVariable String senha) {
         return service.buscarPorEmailESenha(email, senha);
     }
 
     @PostMapping
-    public Usuario cadastrar(@Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
         return service.cadastrar(usuario);
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizar(@PathVariable int id, @Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> atualizar(@PathVariable int id, @Valid @RequestBody Usuario usuario) {
         return service.atualizar(id, usuario);
     }   
     
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable int id) {
-        service.deletar(id);
+    public ResponseEntity<Void> deletar(@PathVariable int id) {
+        return service.deletar(id);
     }
 }
