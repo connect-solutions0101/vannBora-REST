@@ -37,6 +37,5 @@ public class Usuario {
     private String senha;
 
     @Column
-    @NotBlank
     private LocalDate dataNascimento;
 }
