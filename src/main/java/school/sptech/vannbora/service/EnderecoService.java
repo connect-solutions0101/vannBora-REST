@@ -39,7 +39,7 @@ public class EnderecoService {
 
     public ResponseEntity<Endereco> cadastrar(Endereco endereco) {
         Endereco novoEndereco = repository.save(endereco);
-        return ResponseEntity.status(201).body(endereco);
+        return ResponseEntity.status(201).body(novoEndereco);
     }
 
     public ResponseEntity<Endereco> atualizar(int id, Endereco endereco) {
