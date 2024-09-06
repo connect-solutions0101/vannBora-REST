@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VannboraApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VannboraApplication.class, args);
+		SpringApplication app = new SpringApplication(VannboraApplication.class);
+        app.addListeners(new DotenvListener());
+        app.run(args);
+		
 	}
 
 }
