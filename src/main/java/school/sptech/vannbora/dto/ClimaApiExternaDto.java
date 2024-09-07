@@ -1,5 +1,7 @@
 package school.sptech.vannbora.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.*;
@@ -34,6 +36,34 @@ public class ClimaApiExternaDto {
         @JsonProperty("humidity")
         private int humidity;
 
+        @JsonProperty
+        private List<Forecast> forecast;
+
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @Getter
+        @Setter
+        public static class Forecast {
+
+            @JsonProperty("date")
+            private String date;
+
+            @JsonProperty("weekday")
+            private String weekday;
+
+            @JsonProperty("max")
+            private int max;
+
+            @JsonProperty("min")
+            private int min;
+
+            @JsonProperty("humidity")
+            private int humidity;
+
+            @JsonProperty("description")
+            private String description;
+
+        }
     }
 
 }
