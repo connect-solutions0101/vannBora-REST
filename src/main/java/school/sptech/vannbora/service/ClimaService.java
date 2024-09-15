@@ -62,7 +62,7 @@ public class ClimaService implements ISorter<Forecast> {
         }
     }
 
-    public ResponseEntity<List<Forecast>> buscarHistoricoClima(String city, boolean sort) {
+    public ResponseEntity<List<Forecast>> buscarProximosClima(String city, boolean sort) {
         if(city == null || city.isBlank()) return ResponseEntity.badRequest().build();
 
         Dotenv dotenv = Dotenv.load();

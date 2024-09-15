@@ -25,9 +25,9 @@ public class ClimaController {
         return climaService.buscarClima(city);
     }
 
-    @GetMapping("/historico")
-    public ResponseEntity<List<Forecast>> buscarHistoricoClima(@RequestParam String city, @RequestParam(required = false, defaultValue = "false") boolean sort) {
-        return climaService.buscarHistoricoClima(city, sort);
+    @GetMapping("/proximos")
+    public ResponseEntity<List<Forecast>> buscarProximosClima(@RequestParam String city, @RequestParam(required = false, defaultValue = "false") boolean sort) {
+        return climaService.buscarProximosClima(city, sort);
     }
     
 }
