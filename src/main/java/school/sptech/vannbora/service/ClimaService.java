@@ -2,11 +2,12 @@ package school.sptech.vannbora.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.server.ResponseStatusException;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import school.sptech.vannbora.dto.ClimaApiExternaDto;
@@ -22,8 +23,8 @@ public class ClimaService implements ISorter<Forecast> {
 
     private static final Logger log = LoggerFactory.getLogger(ClimaService.class);
     
-    public ResponseEntity<ClimaDto> buscarClima(String city) {
-        if (city == null || city.isBlank()) return ResponseEntity.badRequest().build();
+    public ClimaDto buscarClima(String city) {
+        if (city == null || city.isBlank()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
         Dotenv dotenv = Dotenv.load();
 
@@ -44,7 +45,7 @@ public class ClimaService implements ISorter<Forecast> {
                     .body(ClimaApiExternaDto.class);
 
             if (clima == null) {
-                return ResponseEntity.noContent().build();
+                throw new ResponseStatusException(HttpStatus.NO_CONTENT);
             }
 
             ClimaDto resposta = new ClimaDto(
@@ -55,15 +56,15 @@ public class ClimaService implements ISorter<Forecast> {
                     clima.getResults().getHumidity(),
                     clima.getResults().getForecast());
 
-            return ResponseEntity.ok(resposta);
+            return resposta;
         } catch (RestClientException e) {
             log.error("Erro ao chamar a API externa: ", e);
-            return ResponseEntity.status(500).body(null);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity<List<Forecast>> buscarProximosClima(String city, boolean sort) {
-        if(city == null || city.isBlank()) return ResponseEntity.badRequest().build();
+    public List<Forecast> buscarProximosClima(String city, boolean sort) {
+        if(city == null || city.isBlank()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
         Dotenv dotenv = Dotenv.load();
 
@@ -83,18 +84,18 @@ public class ClimaService implements ISorter<Forecast> {
                     .body(ClimaApiExternaDto.class);
 
             if (clima == null) {
-                return ResponseEntity.noContent().build();
+                throw new ResponseStatusException(HttpStatus.NO_CONTENT);
             }
 
             Forecast[] forecast = clima.getResults().getForecast().toArray(new Forecast[0]);
 
             if (sort) sort(forecast);
 
-            return ResponseEntity.ok(Arrays.asList(forecast));
+            return Arrays.asList(forecast);
 
         } catch (RestClientException e) {
             log.error("Erro ao chamar a API externa: ", e);
-            return ResponseEntity.status(500).body(null);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

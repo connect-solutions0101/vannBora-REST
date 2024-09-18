@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;  
 
 
 @RestController
@@ -30,26 +30,31 @@ public class UsuarioController {
 
     @GetMapping    
     public ResponseEntity<List<Usuario>> listar() {
-        return service.listar();
+        List<Usuario> lista = service.listar();
+
+        if(lista.isEmpty()) return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(200).body(lista);
     }
 
     @GetMapping("/{email}/{senha}")
     public ResponseEntity<Usuario> buscarPorEmailESenha(@PathVariable String email, @PathVariable String senha) {
-        return service.buscarPorEmailESenha(email, senha);
+        return ResponseEntity.status(200).body(service.buscarPorEmailESenha(email, senha));
     }
 
     @PostMapping
     public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
-        return service.cadastrar(usuario);
+        return ResponseEntity.status(201).body(service.cadastrar(usuario));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizar(@PathVariable int id, @Valid @RequestBody Usuario usuario) {
-        return service.atualizar(id, usuario);
+        return ResponseEntity.status(200).body(service.atualizar(id, usuario));
     }   
     
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id) {
-        return service.deletar(id);
+        service.deletar(id);
+        return ResponseEntity.status(204).build();
     }
 }

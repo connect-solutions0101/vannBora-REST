@@ -22,12 +22,16 @@ public class ClimaController {
 
     @GetMapping
     public ResponseEntity<ClimaDto> buscarClima(@RequestParam String city) {        
-        return climaService.buscarClima(city);
+        return ResponseEntity.status(200).body(climaService.buscarClima(city));
     }
 
     @GetMapping("/proximos")
     public ResponseEntity<List<Forecast>> buscarProximosClima(@RequestParam String city, @RequestParam(required = false, defaultValue = "false") boolean sort) {
-        return climaService.buscarProximosClima(city, sort);
+        List<Forecast> lista = climaService.buscarProximosClima(city, sort);
+
+        if(lista.isEmpty()) return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(200).body(lista);
     }
     
 }

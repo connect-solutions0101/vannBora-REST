@@ -3,8 +3,9 @@ package school.sptech.vannbora.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import school.sptech.vannbora.entidade.Usuario;
 import school.sptech.vannbora.interfaces.ISorter;
@@ -16,34 +17,33 @@ public class UsuarioService implements ISorter<Usuario> {
     @Autowired
     private UsuarioRepository repository;
 
-    public ResponseEntity<List<Usuario>> listar() {
-        List<Usuario> usuarios = repository.findAll();
-        return ResponseEntity.status(200).body(usuarios);
+    public List<Usuario> listar() {
+        return repository.findAll();
     }
 
-    public ResponseEntity<Usuario> buscarPorEmailESenha(String email, String senha) {
-        Usuario usuario = repository.findByEmailAndSenha(email, senha);
-        if (usuario != null) {
-            return ResponseEntity.status(200).body(usuario);
-        } else {
-            return ResponseEntity.status(404).build();
-        }
+    public Usuario buscarPorEmailESenha(String email, String senha) {
+        return repository.findByEmailAndSenha(email, senha).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado")
+        );
     }
 
-    public ResponseEntity<Usuario> cadastrar(Usuario usuario) {
-        Usuario novoUsuario = repository.save(usuario);
-        return ResponseEntity.status(201).body(novoUsuario);
+    public Usuario cadastrar(Usuario usuario) {
+        return repository.save(usuario);
     }
 
-    public ResponseEntity<Usuario> atualizar(int id, Usuario usuario) {
+    public Usuario atualizar(int id, Usuario usuario) {
+        repository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
         usuario.setId(id);
-        Usuario usuarioAtualizado = repository.save(usuario);
-        return ResponseEntity.status(200).body(usuarioAtualizado);
+        return repository.save(usuario);
     }
 
-    public ResponseEntity<Void> deletar(int id) {
+    public void deletar(int id) {
+        repository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
         repository.deleteById(id);
-        return ResponseEntity.status(204).build();
     }
 
     @Override
