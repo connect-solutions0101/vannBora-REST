@@ -1,7 +1,6 @@
 package school.sptech.vannbora.entidade;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,29 +17,23 @@ public class Endereco {
     private int id;
 
     @Column
-    @NotBlank
     private String cep;
 
     @Column
-    @NotBlank
     private String logradouro;
 
     @Column
-    @NotBlank
     private String numero;
 
     @Column
     private String complemento;
 
     @Column
-    @NotBlank
     private String bairro;
 
     @Column
-    @NotBlank
     private String localidade;
 
     @Column
-    @NotBlank
     private String uf;
 }

@@ -4,38 +4,39 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.vannbora.enums.Pago;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+@Builder
+public class Fatura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @Column
+    private Double valor;
 
     @Column
-    private String nome;
+    private LocalDate dataVencimento;
+    
+    @Column
+    private LocalDate dataPagamento;
 
     @Column
-    @Email
-    @NotBlank
-    private String email;
-
-    @Column
-    @NotBlank
-    private String senha;
-
-    @Column
-    private LocalDate dataNascimento;
+    @Enumerated(EnumType.ORDINAL)
+    private Pago pago;
 }
