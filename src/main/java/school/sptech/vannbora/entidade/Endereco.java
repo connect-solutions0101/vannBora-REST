@@ -1,46 +1,40 @@
 package school.sptech.vannbora.entidade;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import school.sptech.vannbora.enums.UfEnum;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
-    @NotBlank
     private String cep;
 
     @Column
-    @NotBlank
     private String logradouro;
 
     @Column
-    @NotBlank
     private String numero;
 
     @Column
-    private String complemento;
+    private String cidade;
 
     @Column
-    @NotBlank
-    private String bairro;
+    private UfEnum uf;
 
-    @Column
-    @NotBlank
-    private String localidade;
-
-    @Column
-    @NotBlank
-    private String uf;
+    public Endereco(String cep, String logradouro, String numero, String cidade, UfEnum uf) {
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.uf = uf;
+    }
 }
