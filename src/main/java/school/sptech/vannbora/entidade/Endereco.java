@@ -1,16 +1,15 @@
 package school.sptech.vannbora.entidade;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import school.sptech.vannbora.enums.UfEnum;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +25,16 @@ public class Endereco {
     private String numero;
 
     @Column
-    private String complemento;
+    private String cidade;
 
     @Column
-    private String bairro;
+    private UfEnum uf;
 
-    @Column
-    private String localidade;
-
-    @Column
-    private String uf;
+    public Endereco(String cep, String logradouro, String numero, String cidade, UfEnum uf) {
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.uf = uf;
+    }
 }
