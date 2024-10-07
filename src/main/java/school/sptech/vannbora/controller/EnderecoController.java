@@ -19,9 +19,6 @@ public class EnderecoController {
     @Autowired
     private EnderecoService service;
 
-    @Autowired
-    private EnderecoMapper mapper;
-
     @GetMapping
     public ResponseEntity<List<EnderecoResponseDto>> listar(){
         List<Endereco> lista = service.listar();
@@ -30,7 +27,7 @@ public class EnderecoController {
 
         List<EnderecoResponseDto> dtoLista = new ArrayList<>();
         for(Endereco endereco : lista){
-            dtoLista.add(mapper.toEnderecoResponseDto(endereco));
+            dtoLista.add(EnderecoMapper.toEnderecoResponseDto(endereco));
         }
 
         return ResponseEntity.status(200).body(dtoLista);
@@ -38,24 +35,24 @@ public class EnderecoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoResponseDto> buscarPorId(@PathVariable int id){
-        return ResponseEntity.status(200).body(mapper.toEnderecoResponseDto(service.buscarPorId(id)));
+        return ResponseEntity.status(200).body(EnderecoMapper.toEnderecoResponseDto(service.buscarPorId(id)));
     }
 
     @GetMapping("/cep")
     public ResponseEntity<EnderecoResponseDto> buscarPorCep(@RequestParam String cep){
-        return ResponseEntity.status(200).body(mapper.toEnderecoResponseDto(service.buscarPorCep(cep)));
+        return ResponseEntity.status(200).body(EnderecoMapper.toEnderecoResponseDto(service.buscarPorCep(cep)));
     }
 
     @PostMapping
     public ResponseEntity<EnderecoResponseDto> cadastrar(@RequestBody EnderecoRequestDto endereco){
-        Endereco novoEndereco = mapper.toEndereco(endereco);
-        return ResponseEntity.status(201).body(mapper.toEnderecoResponseDto(service.cadastrar(novoEndereco)));
+        Endereco novoEndereco = EnderecoMapper.toEndereco(endereco);
+        return ResponseEntity.status(201).body(EnderecoMapper.toEnderecoResponseDto(service.cadastrar(novoEndereco)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EnderecoResponseDto> atualizar(@PathVariable int id, @RequestBody EnderecoRequestDto endereco){
-        Endereco enderecoEditado = mapper.toEnderecoAtualizar(id, endereco);
-        return ResponseEntity.status(200).body(mapper.toEnderecoResponseDto(service.atualizar(id, enderecoEditado)));
+        Endereco enderecoEditado = EnderecoMapper.toEnderecoAtualizar(id, endereco);
+        return ResponseEntity.status(200).body(EnderecoMapper.toEnderecoResponseDto(service.atualizar(id, enderecoEditado)));
     }
 
     @DeleteMapping("/{id}")
