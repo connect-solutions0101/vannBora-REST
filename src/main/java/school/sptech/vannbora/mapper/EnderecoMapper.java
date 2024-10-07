@@ -7,7 +7,7 @@ import school.sptech.vannbora.entidade.Endereco;
 
 @Component
 public class EnderecoMapper {
-    public final EnderecoResponseDto toEnderecoResponseDto(Endereco endereco){
+    public static final EnderecoResponseDto toEnderecoResponseDto(Endereco endereco){
         if(endereco == null){
             return null;
         }
@@ -21,7 +21,7 @@ public class EnderecoMapper {
         );
     }
 
-    public final Endereco toEndereco(EnderecoRequestDto dto){
+    public static final Endereco toEndereco(EnderecoRequestDto dto){
         if(dto == null){
             return null;
         }
@@ -35,7 +35,7 @@ public class EnderecoMapper {
         );
     }
 
-    public final Endereco toEnderecoAtualizar(int id, EnderecoRequestDto dto){
+    public static final Endereco toEnderecoAtualizar(int id, EnderecoRequestDto dto){
         if(dto == null){
             return null;
         }

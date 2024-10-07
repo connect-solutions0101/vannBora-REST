@@ -1,11 +1,10 @@
 package school.sptech.vannbora.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import school.sptech.vannbora.entidade.ProprietarioServico;
+import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 import school.sptech.vannbora.repository.ProprietarioServicoRepository;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class ProprietarioServicoService {
 
     public ProprietarioServico buscarPorId(int id){
         return repository.findById(id).orElseThrow(
-            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+            () -> new RegistroNaoEncontradoException("Proprietário de serviço não encontrado")
         );
     }
 
@@ -32,7 +31,7 @@ public class ProprietarioServicoService {
 
     public ProprietarioServico atualizar(int id, ProprietarioServico proprietarioServico) {
         repository.findById(id).orElseThrow(
-            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+            () -> new RegistroNaoEncontradoException("Proprietário de serviço não encontrado")
         );
 
         proprietarioServico.setId(id);
@@ -41,7 +40,7 @@ public class ProprietarioServicoService {
 
     public void deletar(int id) {
         repository.findById(id).orElseThrow(
-            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+            () -> new RegistroNaoEncontradoException("Proprietário de serviço não encontrado")
         );
 
         repository.deleteById(id);
