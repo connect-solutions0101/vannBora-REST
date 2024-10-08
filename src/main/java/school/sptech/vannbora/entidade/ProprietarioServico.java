@@ -27,12 +27,16 @@ public class ProprietarioServico implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column
     private String nome;
 
+    @Column
     private String email;
 
+    @Column
     private String senha;
 
+    @Column
     private ProprietarioServicoRole role;
 
     public ProprietarioServico(String nome, String email, String senha, ProprietarioServicoRole role) {

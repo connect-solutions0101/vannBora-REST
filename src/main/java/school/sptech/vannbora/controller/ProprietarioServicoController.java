@@ -1,18 +1,17 @@
 package school.sptech.vannbora.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import school.sptech.vannbora.dto.proprietario.ProprietarioServicoRequestDto;
+import school.sptech.vannbora.dto.proprietario.ProprietarioServicoResponseDto;
 import school.sptech.vannbora.entidade.ProprietarioServico;
+import school.sptech.vannbora.mapper.ProprietarioServicoMapper;
 import school.sptech.vannbora.service.ProprietarioServicoService;
 
 @RestController
@@ -23,31 +22,32 @@ public class ProprietarioServicoController {
     private ProprietarioServicoService service;
 
     @GetMapping
-    public ResponseEntity<List<ProprietarioServico>> listar(){
+    public ResponseEntity<List<ProprietarioServicoResponseDto>> listar(){
         List<ProprietarioServico> lista = service.listar();
 
         if(lista.isEmpty()) return ResponseEntity.status(204).build();
 
-        return ResponseEntity.status(200).body(lista);
+        List<ProprietarioServicoResponseDto> dtoLista = new ArrayList<>();
+        for(ProprietarioServico proprietario : lista){
+            dtoLista.add(ProprietarioServicoMapper.toProprietarioServicoResponseDto(proprietario));
+        }
+
+        return ResponseEntity.status(200).body(dtoLista);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProprietarioServico> buscarPorId(@RequestParam int id){
-        return ResponseEntity.status(200).body(service.buscarPorId(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<ProprietarioServico> salvar(@RequestParam ProprietarioServico proprietarioServico){
-        return ResponseEntity.status(201).body(service.cadastrar(proprietarioServico));
+    public ResponseEntity<ProprietarioServicoResponseDto> buscarPorId(@PathVariable int id){
+        return ResponseEntity.status(200).body(ProprietarioServicoMapper.toProprietarioServicoResponseDto(service.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProprietarioServico> atualizar(@RequestParam int id, @RequestParam ProprietarioServico proprietarioServico){
-        return ResponseEntity.status(200).body(service.atualizar(id, proprietarioServico));
+    public ResponseEntity<ProprietarioServicoResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid ProprietarioServicoRequestDto dto){
+        ProprietarioServico proprietarioEditado = ProprietarioServicoMapper.toProprietarioServicoAtualizar(id, dto);
+        return ResponseEntity.status(200).body(ProprietarioServicoMapper.toProprietarioServicoResponseDto(service.atualizar(id, proprietarioEditado)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@RequestParam int id){
+    public ResponseEntity<Void> deletar(@PathVariable int id){
         service.deletar(id);
         return ResponseEntity.status(204).build();
     }

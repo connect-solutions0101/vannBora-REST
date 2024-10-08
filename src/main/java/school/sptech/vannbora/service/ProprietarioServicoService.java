@@ -25,10 +25,6 @@ public class ProprietarioServicoService {
         );
     }
 
-    public ProprietarioServico cadastrar(ProprietarioServico proprietarioServico) {
-        return repository.save(proprietarioServico);
-    }
-
     public ProprietarioServico atualizar(int id, ProprietarioServico proprietarioServico) {
         repository.findById(id).orElseThrow(
             () -> new RegistroNaoEncontradoException("Proprietário de serviço não encontrado")

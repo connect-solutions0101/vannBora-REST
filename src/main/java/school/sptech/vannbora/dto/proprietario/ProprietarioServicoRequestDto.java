@@ -9,6 +9,6 @@ import school.sptech.vannbora.enums.ProprietarioServicoRole;
 public record ProprietarioServicoRequestDto(
         @Size(min = 2, message = "O nome deve ter no mínimo 2 caracteres") String nome,
         @NotBlank(message = "Insira um email") @Email(message = "Digite um email válido") String email,
-        @Size(min = 8, message = "A senha deve ter no mínimo 2 carcteres") String senha,
+        @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres") String senha,
         @NotNull(message = "O usuário deve ter uma role") ProprietarioServicoRole role) {
 }
