@@ -42,8 +42,8 @@ public class ProprietarioServicoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProprietarioServicoResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid ProprietarioServicoRequestDto dto){
-        ProprietarioServico proprietarioEditado = ProprietarioServicoMapper.toProprietarioServicoAtualizar(id, dto);
-        return ResponseEntity.status(200).body(ProprietarioServicoMapper.toProprietarioServicoResponseDto(service.atualizar(id, proprietarioEditado)));
+        ProprietarioServico proprietarioEditado = ProprietarioServicoMapper.toProprietarioServico(dto);
+        return ResponseEntity.status(200).body(ProprietarioServicoMapper.toProprietarioServicoResponseDto(service.atualizar(id, proprietarioEditado, dto.enderecoId())));
     }
 
     @DeleteMapping("/{id}")

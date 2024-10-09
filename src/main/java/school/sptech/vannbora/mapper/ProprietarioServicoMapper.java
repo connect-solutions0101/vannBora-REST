@@ -6,7 +6,6 @@ import school.sptech.vannbora.dto.proprietario.ProprietarioServicoRequestDto;
 import school.sptech.vannbora.dto.proprietario.ProprietarioServicoResponseDto;
 import school.sptech.vannbora.entidade.ProprietarioServico;
 
-@Component
 public class ProprietarioServicoMapper {
     public static ProprietarioServicoResponseDto toProprietarioServicoResponseDto(ProprietarioServico proprietario){
         if(proprietario == null) return null;
@@ -14,6 +13,7 @@ public class ProprietarioServicoMapper {
         return ProprietarioServicoResponseDto.builder()
                 .id(proprietario.getId())
                 .nome(proprietario.getNome())
+                .cpf(proprietario.getCpf())
                 .email(proprietario.getEmail())
                 .role(proprietario.getRole())
                 .build();
@@ -24,26 +24,13 @@ public class ProprietarioServicoMapper {
             return null;
         }
 
-        return new ProprietarioServico(
-                dto.nome(),
-                dto.email(),
-                dto.senha(),
-                dto.role()
-        );
-    }
-
-    public static ProprietarioServico toProprietarioServicoAtualizar(int id, ProprietarioServicoRequestDto dto){
-        if(dto == null){
-            return null;
-        }
-
         String senhaCriptografada = new BCryptPasswordEncoder().encode(dto.senha());
-        return new ProprietarioServico(
-                id,
-                dto.nome(),
-                dto.email(),
-                senhaCriptografada,
-                dto.role()
-        );
+        return ProprietarioServico.builder()
+                .nome(dto.nome())
+                .email(dto.email())
+                .cpf(dto.cpf())
+                .senha(senhaCriptografada)
+                .role(dto.role())
+                .build();
     }
 }

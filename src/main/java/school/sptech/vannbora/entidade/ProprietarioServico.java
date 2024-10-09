@@ -34,16 +34,24 @@ public class ProprietarioServico implements UserDetails {
     private String email;
 
     @Column
+    private String cpf;
+
+    @Column
     private String senha;
 
     @Column
     private ProprietarioServicoRole role;
 
-    public ProprietarioServico(String nome, String email, String senha, ProprietarioServicoRole role) {
+    @ManyToOne
+    private Endereco endereco;
+
+    public ProprietarioServico(String nome, String email, String cpf, String senha, ProprietarioServicoRole role, Endereco endereco) {
         this.nome = nome;
         this.email = email;
+        this.cpf = cpf;
         this.senha = senha;
         this.role = role;
+        this.endereco = endereco;
     }
 
     @Override
