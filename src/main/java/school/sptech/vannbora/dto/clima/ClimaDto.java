@@ -1,11 +1,11 @@
-package school.sptech.vannbora.dto;
+package school.sptech.vannbora.dto.clima;
 
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import school.sptech.vannbora.dto.ClimaApiExternaDto.Results.Forecast;
+import school.sptech.vannbora.dto.clima.ClimaApiExternaDto.Results.Forecast;
 
 @Data
 @AllArgsConstructor

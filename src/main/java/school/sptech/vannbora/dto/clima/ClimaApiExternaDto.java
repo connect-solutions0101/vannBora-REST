@@ -1,4 +1,4 @@
-package school.sptech.vannbora.dto;
+package school.sptech.vannbora.dto.clima;
 
 import java.util.List;
 

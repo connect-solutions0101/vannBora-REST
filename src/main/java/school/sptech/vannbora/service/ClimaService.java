@@ -10,10 +10,10 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import school.sptech.vannbora.dto.ClimaApiExternaDto;
-import school.sptech.vannbora.dto.ClimaApiExternaDto.Results.Forecast;
+import school.sptech.vannbora.dto.clima.ClimaApiExternaDto;
+import school.sptech.vannbora.dto.clima.ClimaDto;
+import school.sptech.vannbora.dto.clima.ClimaApiExternaDto.Results.Forecast;
 import school.sptech.vannbora.interfaces.ISorter;
-import school.sptech.vannbora.dto.ClimaDto;
 
 import java.util.List;
 import java.util.Arrays;

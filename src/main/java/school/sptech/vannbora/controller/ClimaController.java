@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import school.sptech.vannbora.dto.ClimaDto;
-import school.sptech.vannbora.dto.ClimaApiExternaDto.Results.Forecast;
+import school.sptech.vannbora.dto.clima.ClimaDto;
+import school.sptech.vannbora.dto.clima.ClimaApiExternaDto.Results.Forecast;
 import school.sptech.vannbora.service.ClimaService;
 
 import java.util.List;
