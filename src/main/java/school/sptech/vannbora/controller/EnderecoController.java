@@ -1,5 +1,6 @@
 package school.sptech.vannbora.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,13 +45,13 @@ public class EnderecoController {
     }
 
     @PostMapping
-    public ResponseEntity<EnderecoResponseDto> cadastrar(@RequestBody EnderecoRequestDto endereco){
+    public ResponseEntity<EnderecoResponseDto> cadastrar(@RequestBody @Valid EnderecoRequestDto endereco){
         Endereco novoEndereco = EnderecoMapper.toEndereco(endereco);
         return ResponseEntity.status(201).body(EnderecoMapper.toEnderecoResponseDto(service.cadastrar(novoEndereco)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EnderecoResponseDto> atualizar(@PathVariable int id, @RequestBody EnderecoRequestDto endereco){
+    public ResponseEntity<EnderecoResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid EnderecoRequestDto endereco){
         Endereco enderecoEditado = EnderecoMapper.toEnderecoAtualizar(id, endereco);
         return ResponseEntity.status(200).body(EnderecoMapper.toEnderecoResponseDto(service.atualizar(id, enderecoEditado)));
     }
