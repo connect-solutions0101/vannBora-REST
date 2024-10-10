@@ -2,7 +2,6 @@ package school.sptech.vannbora.entidade;
 
 import jakarta.persistence.*;
 import lombok.*;
-import school.sptech.vannbora.enums.UfEnum;
 
 @Entity
 @Getter
@@ -22,19 +21,23 @@ public class Endereco {
     private String logradouro;
 
     @Column
-    private String numero;
+    private String bairro;
 
     @Column
     private String cidade;
 
     @Column
-    private UfEnum uf;
+    private String pontoReferencia;
 
-    public Endereco(String cep, String logradouro, String numero, String cidade, UfEnum uf) {
+    @Column
+    private String numero;
+
+    public Endereco(String cep, String logradouro, String bairro, String cidade, String pontoReferencia, String numero) {
         this.cep = cep;
         this.logradouro = logradouro;
-        this.numero = numero;
+        this.bairro = bairro;
         this.cidade = cidade;
-        this.uf = uf;
+        this.pontoReferencia = pontoReferencia;
+        this.numero = numero;
     }
 }

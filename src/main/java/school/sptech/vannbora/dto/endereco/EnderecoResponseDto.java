@@ -1,12 +1,11 @@
 package school.sptech.vannbora.dto.endereco;
 
-import school.sptech.vannbora.enums.UfEnum;
-
 public record EnderecoResponseDto(
         String cep,
         String logradouro,
-        String numero,
+        String bairro,
         String cidade,
-        UfEnum uf
+        String pontoReferencia,
+        String numero
 ) {
 }

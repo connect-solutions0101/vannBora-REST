@@ -36,12 +36,18 @@ public class EnderecoService {
     }
 
     public Endereco atualizar(int id, Endereco endereco) {
-        repository.findById(id).orElseThrow(
-            () -> new RegistroNaoEncontradoException("Endereço não encontrado")
+        Endereco enderecoAtual = repository.findById(id).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Endereço não encontrado")
         );
 
-        endereco.setId(id);
-        return repository.save(endereco);
+        enderecoAtual.setCep(endereco.getCep());
+        enderecoAtual.setLogradouro(endereco.getLogradouro());
+        enderecoAtual.setBairro(endereco.getBairro());
+        enderecoAtual.setCidade(endereco.getCidade());
+        enderecoAtual.setPontoReferencia(endereco.getPontoReferencia());
+        enderecoAtual.setNumero(endereco.getNumero());
+
+        return repository.save(enderecoAtual);
     }
 
     public void deletar(int id) {

@@ -15,9 +15,10 @@ public class EnderecoMapper {
         return new EnderecoResponseDto(
                 endereco.getCep(),
                 endereco.getLogradouro(),
-                endereco.getNumero(),
+                endereco.getBairro(),
                 endereco.getCidade(),
-                endereco.getUf()
+                endereco.getPontoReferencia(),
+                endereco.getNumero()
         );
     }
 
@@ -29,24 +30,25 @@ public class EnderecoMapper {
         return new Endereco(
                 dto.cep(),
                 dto.logradouro(),
-                dto.numero(),
+                dto.bairro(),
                 dto.cidade(),
-                dto.uf()
+                dto.pontoReferencia(),
+                dto.numero()
         );
     }
 
-    public static final Endereco toEnderecoAtualizar(int id, EnderecoRequestDto dto){
-        if(dto == null){
-            return null;
-        }
-
-        return new Endereco(
-                id,
-                dto.cep(),
-                dto.logradouro(),
-                dto.numero(),
-                dto.cidade(),
-                dto.uf()
-        );
-    }
+//    public static final Endereco toEnderecoAtualizar(int id, EnderecoRequestDto dto){
+//        if(dto == null){
+//            return null;
+//        }
+//
+//        return new Endereco(
+//                id,
+//                dto.cep(),
+//                dto.logradouro(),
+//                dto.bairro(),
+//                dto.cidade(),
+//                dto.numero()
+//        );
+//    }
 }

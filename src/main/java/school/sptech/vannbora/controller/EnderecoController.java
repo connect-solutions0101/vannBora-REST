@@ -52,7 +52,7 @@ public class EnderecoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EnderecoResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid EnderecoRequestDto endereco){
-        Endereco enderecoEditado = EnderecoMapper.toEnderecoAtualizar(id, endereco);
+        Endereco enderecoEditado = EnderecoMapper.toEndereco(endereco);
         return ResponseEntity.status(200).body(EnderecoMapper.toEnderecoResponseDto(service.atualizar(id, enderecoEditado)));
     }
 
