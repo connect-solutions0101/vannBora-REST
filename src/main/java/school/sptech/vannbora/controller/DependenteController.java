@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@RequestMapping("/dependente")
+@RequestMapping("/dependentes")
 @RequiredArgsConstructor
 public class DependenteController {
     
