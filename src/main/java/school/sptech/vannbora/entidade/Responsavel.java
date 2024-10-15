@@ -31,6 +31,9 @@ public class Responsavel {
     private String telefone;
 
     @Column
+    private String cpf;
+
+    @Column
     private String parentesco;
 
     @ManyToOne
