@@ -45,5 +45,6 @@ public class ResponsavelDependente {
     private class ResponsavelDependenteId {
         private int responsavelId;
         private int dependenteId;
+        private int responsavelEnderecoId;
     }
 }
