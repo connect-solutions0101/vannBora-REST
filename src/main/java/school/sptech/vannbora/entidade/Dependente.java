@@ -36,6 +36,9 @@ public class Dependente {
     private LocalDate dataNascimento;
 
     @Column
+    private String turma;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private Turno turno;
 
