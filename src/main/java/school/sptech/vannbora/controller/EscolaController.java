@@ -1,5 +1,6 @@
 package school.sptech.vannbora.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class EscolaController {
 
     private final EscolaService service;
 
+    @Operation(summary = "Listar Escolas", description = "Método lista o dependente inserido pelo usuário no banco..", tags = "Escola Controller")
     @GetMapping
     public ResponseEntity<List<EscolaResponseDto>> listar(){
         List<Escola> escolas = service.listar();
@@ -34,12 +36,14 @@ public class EscolaController {
         return ResponseEntity.ok(dtoLista);
     }
 
+    @Operation(summary = "Busca Escola Por Id", description = "Método busca a escola pelo id inserido pelo usuário no banco de dados.", tags = "Escola Controller")
     @GetMapping("/{id}")
     public ResponseEntity<EscolaResponseDto> buscarPorId(@PathVariable int id){
         Escola escola = service.buscarPorId(id);
         return ResponseEntity.ok(EscolaMapper.toEscolaResponseDto(escola));
     }
 
+    @Operation(summary = "Cadastrar Escola ", description = "Método cadastra a escola no banco de dados.", tags = "Escola Controller")
     @PostMapping
     public ResponseEntity<EscolaResponseDto> cadastrar(@Valid @RequestBody EscolaRequestDto dto){
         Escola escola = EscolaMapper.toEscola(dto);
@@ -47,6 +51,7 @@ public class EscolaController {
         return ResponseEntity.created(null).body(EscolaMapper.toEscolaResponseDto(service.cadastrar(escola, dto.enderecoId())));
     }
 
+    @Operation(summary = "Atualizar Escola ", description = "Método atualiza a escola pelo id inserido no banco de dados.", tags = "Escola Controller")
     @PutMapping("/{id}")
     public ResponseEntity<EscolaResponseDto> atualizar(@PathVariable int id, @Valid @RequestBody EscolaRequestDto dto){
         Escola escola = EscolaMapper.toEscola(dto);
@@ -54,6 +59,7 @@ public class EscolaController {
         return ResponseEntity.ok(EscolaMapper.toEscolaResponseDto(service.atualizar(id, escola, dto.enderecoId())));
     }
 
+    @Operation(summary = "Deletar Escola Por Id ", description = "Método deleta a escola pelo id inserido no banco de dados.", tags = "Escola Controller")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id){
         service.deletar(id);

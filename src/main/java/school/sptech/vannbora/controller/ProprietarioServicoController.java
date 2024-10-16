@@ -1,5 +1,6 @@
 package school.sptech.vannbora.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ProprietarioServicoController {
     
     @Autowired
     private ProprietarioServicoService service;
-
+    @Operation(summary = "Listar de Proprietários", description = "Método lista o endereço inserido pelo usuário no banco.", tags = "Proprietário Serviço Controller")
     @GetMapping
     public ResponseEntity<List<ProprietarioServicoResponseDto>> listar(){
         List<ProprietarioServico> lista = service.listar();
@@ -35,6 +36,7 @@ public class ProprietarioServicoController {
         return ResponseEntity.status(200).body(dtoLista);
     }
 
+    @Operation(summary = "Listar de Proprietários", description = "Método atualiza o endereço inserido pelo usuário no banco.", tags = "Proprietário Serviço Controller")
     @GetMapping("/{id}")
     public ResponseEntity<ProprietarioServicoResponseDto> buscarPorId(@PathVariable int id){
         return ResponseEntity.status(200).body(ProprietarioServicoMapper.toProprietarioServicoResponseDto(service.buscarPorId(id)));

@@ -1,5 +1,6 @@
 package school.sptech.vannbora.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class AuthController {
     private final ProprietarioServicoRepository repository;
     private final EnderecoService enderecoService;
 
+    @Operation(summary = "Realizar Login", description = "Método retorna todos os dados do usuário e realiza o login.", tags = "Auth Controller")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid ProprietarioServicoLoginDto proprietario){
         var usernamePassword = new UsernamePasswordAuthenticationToken(proprietario.email(), proprietario.senha());
@@ -44,7 +46,7 @@ public class AuthController {
                         .build()
         );
     }
-
+    @Operation(summary = "Registrar Usuário", description = "Método retorna todos os dados do usuário e o registra no banco de dados.", tags = "Auth Controller")
     @PostMapping("/registrar")
     public ResponseEntity registrar(@RequestBody @Valid ProprietarioServicoRequestDto proprietario){
         if(this.repository.findByEmail(proprietario.email()) != null){
