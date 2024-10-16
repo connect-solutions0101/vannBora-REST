@@ -36,18 +36,20 @@ public class ProprietarioServicoController {
         return ResponseEntity.status(200).body(dtoLista);
     }
 
-    @Operation(summary = "Listar de Proprietários", description = "Método atualiza o endereço inserido pelo usuário no banco.", tags = "Proprietário Serviço Controller")
+    @Operation(summary = "Listar de Proprietários", description = "Método lista o usuário pelo id inserido pelo usuário no banco.", tags = "Proprietário Serviço Controller")
     @GetMapping("/{id}")
     public ResponseEntity<ProprietarioServicoResponseDto> buscarPorId(@PathVariable int id){
         return ResponseEntity.status(200).body(ProprietarioServicoMapper.toProprietarioServicoResponseDto(service.buscarPorId(id)));
     }
 
+    @Operation(summary = "Atualizar Lista de Proprietários", description = "Método atualiza o endereço inserido pelo usuário no banco.", tags = "Proprietário Serviço Controller")
     @PutMapping("/{id}")
     public ResponseEntity<ProprietarioServicoResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid ProprietarioServicoRequestDto dto){
         ProprietarioServico proprietarioEditado = ProprietarioServicoMapper.toProprietarioServico(dto);
         return ResponseEntity.status(200).body(ProprietarioServicoMapper.toProprietarioServicoResponseDto(service.atualizar(id, proprietarioEditado, dto.enderecoId())));
     }
 
+    @Operation(summary = "Deletar de Proprietários", description = "Método deleta o endereço inserido pelo usuário no banco.", tags = "Proprietário Serviço Controller")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id){
         service.deletar(id);

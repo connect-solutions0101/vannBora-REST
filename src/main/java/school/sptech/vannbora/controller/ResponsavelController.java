@@ -28,7 +28,7 @@ public class ResponsavelController {
     
     private final ResponsavelService service;
 
-    @Operation(summary = "Listar Escola ", description = "Método lista a escola no banco de dados.", tags = "Responsável Controller")
+    @Operation(summary = "Listar Responsável ", description = "Método lista a escola no banco de dados.", tags = "Responsável Controller")
     @GetMapping
     public ResponseEntity<List<ResponsavelResponseDto>> listar(){
         List<Responsavel> lista = service.listar();
@@ -42,7 +42,7 @@ public class ResponsavelController {
         return ResponseEntity.ok(responseDtoList);
     }
 
-    @Operation(summary = "Cadastrar Escola ", description = "Método cadastra o responsável inserido no banco de dados.", tags = "Responsável Controller")
+    @Operation(summary = "Cadastrar Responsável ", description = "Método cadastra o responsável inserido no banco de dados.", tags = "Responsável Controller")
     @PostMapping
     public ResponseEntity<ResponsavelResponseDto> cadastrar(@Valid @RequestBody ResponsavelRequestDto responsavel){
         Responsavel responsavelEntity = ResponsavelMapper.toEntity(responsavel);
@@ -50,14 +50,14 @@ public class ResponsavelController {
         return ResponseEntity.created(null).body(ResponsavelMapper.toResponseDto(service.cadastrar(responsavelEntity, responsavel.enderecoId(), responsavel.proprietarioServicoId())));
     }
 
-    @Operation(summary = "Atualizar Escola ", description = "Método atualiza a escola pelo id inserido no banco de dados.", tags = "Responsável Controller")
+    @Operation(summary = "Atualizar Resposável ", description = "Método atualiza a escola pelo id inserido no banco de dados.", tags = "Responsável Controller")
     @PutMapping("/{id}")
     public ResponseEntity<ResponsavelResponseDto> atualizar(@PathVariable int id, @Valid @RequestBody ResponsavelRequestDto responsavel){
         Responsavel responsavelEntity = ResponsavelMapper.toEntity(responsavel);
 
         return ResponseEntity.ok(ResponsavelMapper.toResponseDto(service.atualizar(id, responsavelEntity, responsavel.enderecoId(), responsavel.proprietarioServicoId())));
     }
-    @Operation(summary = "Deletar Escola ", description = "Método deleta a escola pelo id inserido no banco de dados.", tags = "Responsável Controller")
+    @Operation(summary = "Deletar Responsável ", description = "Método deleta a escola pelo id inserido no banco de dados.", tags = "Responsável Controller")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id){
         service.deletar(id);
