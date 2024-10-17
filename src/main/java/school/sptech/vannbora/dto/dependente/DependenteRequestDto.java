@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
+import school.sptech.vannbora.enums.Turno;
+
+import java.time.LocalDate;
 
 @Builder
 public record DependenteRequestDto(
@@ -13,10 +16,10 @@ public record DependenteRequestDto(
 
     @Past
     @NotNull
-    String dataNascimento,
+    LocalDate dataNascimento,
 
-    @NotBlank
-    String turno,
+    @NotNull
+    Turno turno,
     
     @NotBlank
     String condicao,

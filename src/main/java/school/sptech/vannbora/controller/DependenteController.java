@@ -50,14 +50,14 @@ public class DependenteController {
     @PostMapping
     public ResponseEntity<DependenteResponseDto> salvar(@RequestBody @Valid DependenteRequestDto dependente) {
         Dependente dependenteEntity = DependenteMapper.toDependente(dependente);
-        dependenteEntity = dependenteService.salvar(dependenteEntity);
+        dependenteEntity = dependenteService.salvar(dependenteEntity, dependente.escolaId(), dependente.proprietarioServicoId());
         return ResponseEntity.created(null).body(DependenteMapper.toDependenteResponseDto(dependenteEntity));
     }
     @Operation(summary = "Atualizar Dependentes Por Id", description = "Método atualiza o dependente inserido pelo usuário no banco..", tags = "Dependentes Controller")
     @PutMapping("/{id}")
     public ResponseEntity<DependenteResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid DependenteRequestDto dependente) {
         Dependente dependenteEntity = DependenteMapper.toDependente(dependente);
-        dependenteEntity = dependenteService.atualizar(id, dependenteEntity);
+        dependenteEntity = dependenteService.atualizar(id, dependenteEntity, dependente.escolaId(), dependente.proprietarioServicoId());
         return ResponseEntity.ok(DependenteMapper.toDependenteResponseDto(dependenteEntity));
     }
     @Operation(summary = "Deletar Dependentes Por ID", description = "Método deleta o dependente inserido pelo usuário no banco..", tags = "Dependentes Controller")
