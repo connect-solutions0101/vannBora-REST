@@ -42,9 +42,10 @@ public class ResponsavelDependente {
     @Embeddable
     @Getter
     @Setter
-    private class ResponsavelDependenteId {
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ResponsavelDependenteId {
         private int responsavelId;
         private int dependenteId;
-        private int responsavelEnderecoId;
     }
 }

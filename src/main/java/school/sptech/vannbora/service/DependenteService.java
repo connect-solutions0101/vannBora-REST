@@ -1,5 +1,6 @@
 package school.sptech.vannbora.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,25 +27,27 @@ public class DependenteService {
         return repository.findAll();
     }
 
-    public Dependente salvar(Dependente dependente) {
-        Escola escola = escolaService.buscarPorId(dependente.getEscola().getId());
+    public Dependente salvar(Dependente dependente, int escolaId, int proprietarioServicoId) {
+        Escola escola = escolaService.buscarPorId(escolaId);
         dependente.setEscola(escola);
 
-        ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(dependente.getProprietarioServico().getId());
+        ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(proprietarioServicoId);
         dependente.setProprietarioServico(proprietarioServico);
+
+        dependente.setDataCadastro(LocalDate.now());
 
         return repository.save(dependente);
     }
 
-    public Dependente atualizar(int id, Dependente dependente) {
+    public Dependente atualizar(int id, Dependente dependente, int escolaId, int proprietarioServicoId) {
         Dependente dependenteAtual = repository.findById(id).orElseThrow(
             () -> new RegistroNaoEncontradoException("Dependente não encontrado")
         );
 
-        Escola escola = escolaService.buscarPorId(dependente.getEscola().getId());
+        Escola escola = escolaService.buscarPorId(escolaId);
         dependenteAtual.setEscola(escola);
 
-        ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(dependente.getProprietarioServico().getId());
+        ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(proprietarioServicoId);
         dependenteAtual.setProprietarioServico(proprietarioServico);
 
         dependenteAtual.setNome(dependente.getNome());
