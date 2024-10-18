@@ -12,6 +12,5 @@ public record ProprietarioServicoRequestDto(
         @NotBlank(message = "Insira um email") @Email(message = "Digite um email válido") String email,
         @NotBlank(message = "Insira um CPF") @CPF(message = "Digite um CPF válido") String cpf,
         @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres") String senha,
-        @NotNull(message = "O usuário deve ter uma role") ProprietarioServicoRole role,
-        @NotNull int enderecoId) {
+        @NotNull(message = "O usuário deve ter uma role") ProprietarioServicoRole role) {
 }

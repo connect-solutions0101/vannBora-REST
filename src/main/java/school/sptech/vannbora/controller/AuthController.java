@@ -3,7 +3,6 @@ package school.sptech.vannbora.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,11 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.vannbora.dto.proprietario.ProprietarioServicoLoginDto;
 import school.sptech.vannbora.dto.proprietario.ProprietarioServicoRequestDto;
 import school.sptech.vannbora.dto.proprietario.ProprietarioServicoResponseDto;
-import school.sptech.vannbora.entidade.Endereco;
 import school.sptech.vannbora.entidade.ProprietarioServico;
 import school.sptech.vannbora.infra.security.TokenService;
 import school.sptech.vannbora.repository.ProprietarioServicoRepository;
-import school.sptech.vannbora.service.EnderecoService;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,7 +22,6 @@ public class AuthController {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final ProprietarioServicoRepository repository;
-    private final EnderecoService enderecoService;
 
     @Operation(summary = "Realizar Login", description = "Método retorna todos os dados do usuário e realiza o login.", tags = "Auth Controller")
     @PostMapping("/login")
@@ -54,15 +50,12 @@ public class AuthController {
         }
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(proprietario.senha());
-        Endereco endereco = enderecoService.buscarPorId(proprietario.enderecoId());
         ProprietarioServico novoProprietario = new ProprietarioServico(
                 proprietario.nome(),
                 proprietario.email(),
                 proprietario.cpf(),
                 senhaCriptografada,
-                proprietario.role(),
-                endereco
-        );
+                proprietario.role());
         this.repository.save(novoProprietario);
 
         return ResponseEntity.ok().build();

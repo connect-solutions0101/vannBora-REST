@@ -3,7 +3,6 @@ package school.sptech.vannbora.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import school.sptech.vannbora.entidade.Endereco;
 import school.sptech.vannbora.entidade.ProprietarioServico;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 import school.sptech.vannbora.repository.ProprietarioServicoRepository;
@@ -16,8 +15,6 @@ public class ProprietarioServicoService {
 
     private final ProprietarioServicoRepository repository;
 
-    private final EnderecoService enderecoService;
-
     public List<ProprietarioServico> listar() {
         return repository.findAll();
     }
@@ -28,13 +25,10 @@ public class ProprietarioServicoService {
         );
     }
 
-    public ProprietarioServico atualizar(int id, ProprietarioServico proprietarioServico, int enderecoId) {
+    public ProprietarioServico atualizar(int id, ProprietarioServico proprietarioServico) {
         ProprietarioServico proprietarioServicoAtual = repository.findById(id).orElseThrow(
                 () -> new RegistroNaoEncontradoException("Proprietário de serviço não encontrado")
         );
-
-        Endereco endereco = enderecoService.buscarPorId(enderecoId);
-        proprietarioServicoAtual.setEndereco(endereco);
 
         proprietarioServicoAtual.setNome(proprietarioServico.getNome());
         proprietarioServicoAtual.setEmail(proprietarioServico.getEmail());
