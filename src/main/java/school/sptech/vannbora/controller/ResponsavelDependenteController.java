@@ -1,5 +1,6 @@
 package school.sptech.vannbora.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ public class ResponsavelDependenteController {
     
     private final ResponsavelDependenteService responsavelDependenteService;
 
+    @Operation(summary = "Listar responsáveis e dependentes", description = "Método lista relaciomentos entre responsáveis e dependentes do usuário.", tags = "Responsavéis Dependentes Controller")
     @GetMapping
     public ResponseEntity<List<ResponsavelDependenteResponseDto>> listar(){
         List<ResponsavelDependente> lista = responsavelDependenteService.listar();
@@ -39,6 +41,7 @@ public class ResponsavelDependenteController {
         return ResponseEntity.ok(responseDtoList);
     }
 
+    @Operation(summary = "Cadastrar responsáveis e dependentes", description = "Método cadastra relaciomentos entre responsáveis e dependentes do usuário.", tags = "Responsavéis Dependentes Controller")
     @PostMapping
     public ResponseEntity<ResponsavelDependenteResponseDto> cadastrar(@Valid @RequestBody ResponsavelDependenteRequestDto responsavelDependente){
         ResponsavelDependente responsavelDependenteEntity = ResponsavelDependenteMapper.toEntity(responsavelDependente);
@@ -46,6 +49,7 @@ public class ResponsavelDependenteController {
         return ResponseEntity.created(null).body(ResponsavelDependenteMapper.toResponseDto(responsavelDependenteService.cadastrar(responsavelDependenteEntity, responsavelDependente.responsavelId(), responsavelDependente.dependenteId())));
     }
 
+    @Operation(summary = "Atualizar responsáveis e dependentes", description = "Método atualiza relaciomentos entre responsáveis e dependentes do usuário.", tags = "Responsavéis Dependentes Controller")
     @PutMapping("/{idResponsavel}/{idDependente}")
     public ResponseEntity<ResponsavelDependenteResponseDto> atualizar(
         @PathVariable int idResponsavel,

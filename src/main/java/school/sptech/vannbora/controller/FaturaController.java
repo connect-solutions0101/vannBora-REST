@@ -1,5 +1,6 @@
 package school.sptech.vannbora.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class FaturaController {
     
     private final FaturaService faturaService;
 
+    @Operation(summary = "Listar Faturas", description = "Método lista as faturas do usuário.", tags = "Fatura Controller")
     @GetMapping
     public ResponseEntity<List<FaturaResponseDto>> listarFaturas() {
         List<Fatura> faturas = faturaService.listar();
@@ -40,6 +42,7 @@ public class FaturaController {
         ).toList());
     }
 
+    @Operation(summary = "Listar Faturas Por Dependente", description = "Método lista as faturas por dependentes do usuário.", tags = "Fatura Controller")
     @GetMapping("/dependente/{id}")
     public ResponseEntity<List<FaturaResponseDto>> listarFaturasPorDependente(@PathVariable int id) {
         List<Fatura> faturas = faturaService.listarPorIdDependente(id);
@@ -53,6 +56,7 @@ public class FaturaController {
         ).toList());
     }
 
+    @Operation(summary = "Listar Faturas Por Responsável", description = "Método lista as faturas do usuário por responsável.", tags = "Fatura Controller")
     @GetMapping("/responsavel/{id}")
     public ResponseEntity<List<FaturaResponseDto>> listarFaturasPorResponsavel(@PathVariable int id) {
         List<Fatura> faturas = faturaService.listarPorIdResponsavel(id);
@@ -66,6 +70,7 @@ public class FaturaController {
         ).toList());
     }
 
+    @Operation(summary = "Buscar Faturas por Id", description = "Método lista as faturas do usuário por Id.", tags = "Fatura Controller")
     @GetMapping("/{id}")
     public ResponseEntity<FaturaResponseDto> buscarFaturaPorId(@PathVariable int id) {
         Fatura fatura = faturaService.buscarPorId(id);
@@ -77,6 +82,7 @@ public class FaturaController {
         return ResponseEntity.ok(FaturaMapper.toFaturaResponseDto(fatura));
     }
 
+    @Operation(summary = "Salvar Faturas", description = "Método salva as faturas do usuário.", tags = "Fatura Controller")
     @PostMapping
     public ResponseEntity<FaturaResponseDto> salvar(@Valid @RequestBody FaturaRequestDto fatura) {
         Fatura novaFatura = FaturaMapper.toFatura(fatura);
@@ -92,6 +98,7 @@ public class FaturaController {
         );
     }
 
+    @Operation(summary = "Atualizar Faturas", description = "Método atualiza as faturas do usuário.", tags = "Fatura Controller")
     @PutMapping("/{id}")
     public ResponseEntity<FaturaResponseDto> atualizar(@PathVariable int id,@Valid @RequestBody FaturaRequestDto fatura) {
         Fatura faturaAtualizada = FaturaMapper.toFatura(fatura);
@@ -107,6 +114,7 @@ public class FaturaController {
         );
     }
 
+    @Operation(summary = "Deletar Faturas", description = "Método deleta as faturas do usuário.", tags = "Fatura Controller")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id) {
         faturaService.deletar(id);
