@@ -33,7 +33,7 @@ public class EscolaController {
 
         return ResponseEntity.ok(escolas.stream().map(EscolaMapper::toEscolaResponseDto).toList());
     }
-
+    @Operation(summary = "Listar Tudo", description = "Método lista alunos e dependentes.", tags = "Escola Controller")
     @GetMapping("/full")
     public ResponseEntity<List<EscolaAlunosResponseDto>> listarFull(){
         List<EscolaAlunosResponseDto> escolas = service.listarFull();
