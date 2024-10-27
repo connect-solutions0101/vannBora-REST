@@ -1,5 +1,6 @@
 package school.sptech.vannbora.mapper;
 
+import school.sptech.vannbora.dto.escola.EscolaAlunosResponseDto;
 import school.sptech.vannbora.dto.escola.EscolaRequestDto;
 import school.sptech.vannbora.dto.escola.EscolaResponseDto;
 import school.sptech.vannbora.entidade.Escola;
@@ -17,6 +18,23 @@ public class EscolaMapper {
                 escola.getTelefone(),
                 escola.getTelefoneResponsavel(),
                 EnderecoMapper.toEnderecoResponseDto(escola.getEndereco())
+        );
+    }
+
+    public static EscolaAlunosResponseDto toEscolaResponseDto(Escola escola, int quantidadeAlunos, int pagamentosPendentes){
+        if(escola == null){
+            return null;
+        }
+
+        return new EscolaAlunosResponseDto(
+                escola.getId(),
+                escola.getNome(),
+                escola.getNomeResponsavel(),
+                escola.getTelefone(),
+                escola.getTelefoneResponsavel(),
+                EnderecoMapper.toEnderecoResponseDto(escola.getEndereco()),
+                quantidadeAlunos,
+                pagamentosPendentes
         );
     }
 

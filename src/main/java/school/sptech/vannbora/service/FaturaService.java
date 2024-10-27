@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.vannbora.entidade.Fatura;
+import school.sptech.vannbora.enums.Pago;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 import school.sptech.vannbora.repository.FaturaRepository;
 
@@ -37,6 +38,13 @@ public class FaturaService {
 
     public List<Fatura> listarPorIdDependente(int dependenteId) {
         return faturaRepository.findAllByResponsavelDependenteDependenteId(dependenteId);
+    }
+
+    public int contarPorIdDependenteFaturasPendentes(int dependenteId) {
+        LocalDate now = LocalDate.now();
+        LocalDate comecoMes = now.withDayOfMonth(1);
+        LocalDate fimMes = now.withDayOfMonth(now.lengthOfMonth());
+        return faturaRepository.countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(dependenteId, Pago.NAO_PAGO, comecoMes, fimMes);
     }
 
     public List<Fatura> listarPorIdResponsavel(int responsavelId) {
