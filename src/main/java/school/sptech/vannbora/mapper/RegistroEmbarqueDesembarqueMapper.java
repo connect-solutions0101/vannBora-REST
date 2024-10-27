@@ -15,7 +15,8 @@ public class RegistroEmbarqueDesembarqueMapper {
                 entidade.getId(),
                 entidade.getDataHora(),
                 entidade.getTipo(),
-                entidade.getResponsavelDependente()
+                entidade.getResponsavelDependente().getResponsavel().getId(),
+                entidade.getResponsavelDependente().getDependente().getId()
         );
     }
 

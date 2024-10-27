@@ -1,6 +1,5 @@
 package school.sptech.vannbora.dto.registroembarquedesembarque;
 
-import school.sptech.vannbora.entidade.ResponsavelDependente;
 import school.sptech.vannbora.enums.EmbarqueDesembarque;
 
 import java.time.LocalDateTime;
@@ -9,6 +8,7 @@ public record RegistroEmbarqueDesembarqueResponseDto(
         int id,
         LocalDateTime dataHora,
         EmbarqueDesembarque tipo,
-        ResponsavelDependente responsavelDependente
+        int responsavelId,
+        int dependenteId
 ) {
 }
