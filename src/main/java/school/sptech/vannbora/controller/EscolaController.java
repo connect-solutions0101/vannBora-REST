@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import school.sptech.vannbora.dto.escola.EscolaAlunosResponseDto;
 import school.sptech.vannbora.dto.escola.EscolaRequestDto;
 import school.sptech.vannbora.dto.escola.EscolaResponseDto;
 import school.sptech.vannbora.entidade.Escola;
@@ -29,11 +31,18 @@ public class EscolaController {
             return ResponseEntity.noContent().build();
         }
 
-        List<EscolaResponseDto> dtoLista = escolas.stream()
-                .map(EscolaMapper::toEscolaResponseDto)
-                .toList();
+        return ResponseEntity.ok(escolas.stream().map(EscolaMapper::toEscolaResponseDto).toList());
+    }
 
-        return ResponseEntity.ok(dtoLista);
+    @GetMapping("/full")
+    public ResponseEntity<List<EscolaAlunosResponseDto>> listarFull(){
+        List<EscolaAlunosResponseDto> escolas = service.listarFull();
+
+        if(escolas.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(escolas);
     }
 
     @Operation(summary = "Busca Escola Por Id", description = "Método busca a escola pelo id inserido pelo usuário no banco de dados.", tags = "Escola Controller")
