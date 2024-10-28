@@ -6,7 +6,7 @@ import school.sptech.vannbora.entidade.Fatura;
 import school.sptech.vannbora.enums.Pago;
 
 public class FaturaMapper {
-    
+
     public static FaturaResponseDto toFaturaResponseDto(Fatura fatura){
         if(fatura == null){
             return null;
