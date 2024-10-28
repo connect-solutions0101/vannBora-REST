@@ -7,23 +7,23 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record FaturaRequestDto(
-   
-    @NotNull
-    Double valor,
 
-    Boolean pago,
+        @NotNull
+        Double valor,
 
-    @NotNull
-    @Future
-    LocalDate dataVencimento,
+        Boolean pago,
 
-    @NotNull
-    @Positive
-    Integer responsavelId,
+        @NotNull
+        @Future
+        LocalDate dataVencimento,
 
-    @NotNull
-    @Positive
-    Integer dependenteId
+        @NotNull
+        @Positive
+        Integer responsavelId,
+
+        @NotNull
+        @Positive
+        Integer dependenteId
 ) {
-    
+
 }
