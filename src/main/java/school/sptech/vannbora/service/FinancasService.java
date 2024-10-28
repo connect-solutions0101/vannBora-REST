@@ -6,7 +6,6 @@ import school.sptech.vannbora.dto.fatura.FaturaCsvDto;
 import school.sptech.vannbora.entidade.Fatura;
 import school.sptech.vannbora.mapper.FaturaCsvMapper;
 import school.sptech.vannbora.repository.FaturaRepository;
-import school.sptech.vannbora.utils.GerenciamentoArquivos;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,10 +19,8 @@ import java.util.List;
 public class FinancasService {
     private final FaturaRepository faturaRepository;
 
-    private final GerenciamentoArquivos gerenciamentoArquivos;
-
     public byte[] getFaturasCsv() throws IOException {
-        YearMonth ultimoMes = YearMonth.now().minusMonths(1);
+        YearMonth ultimoMes = YearMonth.now();
         LocalDate inicio = ultimoMes.atDay(1);
         LocalDate fim = ultimoMes.atEndOfMonth();
 
@@ -37,11 +34,11 @@ public class FinancasService {
              OutputStreamWriter writer = new OutputStreamWriter(outputStream)) {
 
             // Cabeçalho CSV
-            writer.write("Nome Responsavel,Nome Dependente,Parentesco Responsavel,Data Pagamento,Valor Pagamento,Pago\n");
+            writer.write("Nome Responsavel;Nome Dependente;Parentesco Responsavel;Data Pagamento;Valor Pagamento;Pago\n");
 
             // Registros CSV
             for (FaturaCsvDto dto : faturaCsvDtos) {
-                writer.write(String.format("%s,%s,%s,%s,%.2f,%s\n",
+                writer.write(String.format("%s;%s;%s;%s;%.2f;%s\n",
                         dto.nomeResponsavel(),
                         dto.nomeDependente(),
                         dto.parentescoResponsavel(),
