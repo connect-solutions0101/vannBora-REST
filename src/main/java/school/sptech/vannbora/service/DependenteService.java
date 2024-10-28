@@ -27,6 +27,10 @@ public class DependenteService {
         return repository.findAll();
     }
 
+    public List<Dependente> listarFull() {
+        return repository.findAll();
+    }
+
     public Dependente salvar(Dependente dependente, int escolaId, int proprietarioServicoId) {
         Escola escola = escolaService.buscarPorId(escolaId);
         dependente.setEscola(escola);

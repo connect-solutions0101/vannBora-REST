@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import school.sptech.vannbora.dto.dependente.DependenteEscolaResponsaveisResponseDto;
 import school.sptech.vannbora.dto.dependente.DependenteRequestDto;
 import school.sptech.vannbora.dto.dependente.DependenteResponseDto;
 import school.sptech.vannbora.entidade.Dependente;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
+
 @RestController
 @RequestMapping("/dependentes")
 @RequiredArgsConstructor
@@ -40,6 +42,16 @@ public class DependenteController {
 
         return ResponseEntity.ok(dependentes.stream().map(DependenteMapper::toDependenteResponseDto).collect(Collectors.toList()));
     }
+    @Operation(summary = "Listar Dependentes, Escolas e Responsáveis.", description = "Método lista o dependentes, escolas e responsáveis.", tags = "Dependentes Controller")
+    @GetMapping("/full")
+    public ResponseEntity<List<DependenteEscolaResponsaveisResponseDto>> listarFull() {
+        List<Dependente> dependentes = dependenteService.listarFull();
+
+        if (dependentes.isEmpty()) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(dependentes.stream().map(DependenteMapper::toDependenteEscolaResponseDto).collect(Collectors.toList()));
+    }
+    
     @Operation(summary = "Buscar Por Id", description = "Método busca o dependente pelo id inserido pelo usuário no banco de dados.", tags = "Dependentes Controller")
     @GetMapping("/{id}")
     public ResponseEntity<DependenteResponseDto> buscarPorId(@PathVariable int id) {
