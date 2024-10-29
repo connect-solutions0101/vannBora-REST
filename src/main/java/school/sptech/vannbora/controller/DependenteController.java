@@ -42,10 +42,10 @@ public class DependenteController {
 
         return ResponseEntity.ok(dependentes.stream().map(DependenteMapper::toDependenteResponseDto).collect(Collectors.toList()));
     }
-    @Operation(summary = "Listar Dependentes, Escolas e Responsáveis.", description = "Método lista o dependentes, escolas e responsáveis.", tags = "Dependentes Controller")
-    @GetMapping("/full")
-    public ResponseEntity<List<DependenteEscolaResponsaveisResponseDto>> listarFull() {
-        List<Dependente> dependentes = dependenteService.listarFull();
+
+    @GetMapping("/full/{id}")
+    public ResponseEntity<List<DependenteEscolaResponsaveisResponseDto>> listarFull(@PathVariable int id) {
+        List<Dependente> dependentes = dependenteService.listarFull(id);
 
         if (dependentes.isEmpty()) return ResponseEntity.noContent().build();
 

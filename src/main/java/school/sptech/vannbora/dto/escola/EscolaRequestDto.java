@@ -18,6 +18,9 @@ public record EscolaRequestDto(
         String telefoneResponsavel,
 
         @NotNull
-        int enderecoId
+        int enderecoId,
+
+        @NotNull
+        int proprietarioServicoId
 ) {
 }

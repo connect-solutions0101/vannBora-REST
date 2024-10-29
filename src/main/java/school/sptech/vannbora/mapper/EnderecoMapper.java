@@ -13,6 +13,7 @@ public class EnderecoMapper {
         }
 
         return new EnderecoResponseDto(
+                endereco.getId(),
                 endereco.getCep(),
                 endereco.getLogradouro(),
                 endereco.getBairro(),
@@ -49,6 +50,6 @@ public class EnderecoMapper {
 //                dto.bairro(),
 //                dto.cidade(),
 //                dto.numero()
-//        );
+//        );    
 //    }
 }
