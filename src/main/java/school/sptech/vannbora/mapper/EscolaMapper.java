@@ -2,6 +2,7 @@ package school.sptech.vannbora.mapper;
 
 import school.sptech.vannbora.dto.escola.EscolaAlunosResponseDto;
 import school.sptech.vannbora.dto.escola.EscolaEditRequestDto;
+import school.sptech.vannbora.dto.escola.EscolaEnderecoRequestDto;
 import school.sptech.vannbora.dto.escola.EscolaRequestDto;
 import school.sptech.vannbora.dto.escola.EscolaResponseDto;
 import school.sptech.vannbora.entidade.Endereco;
@@ -67,6 +68,29 @@ public class EscolaMapper {
                 .endereco(
                     new Endereco(
                         dto.endereco().id(),
+                        dto.endereco().cep(),
+                        dto.endereco().logradouro(),
+                        dto.endereco().bairro(),
+                        dto.endereco().cidade(),
+                        null,
+                        dto.endereco().numero()
+                    )
+                )
+                .build();
+    }
+
+    public static Escola toEscola(EscolaEnderecoRequestDto dto){
+        if(dto == null){
+            return null;
+        }
+
+        return Escola.builder()
+                .nome(dto.nome())
+                .nomeResponsavel(dto.nomeResponsavel())
+                .telefone(dto.telefone())
+                .telefoneResponsavel(dto.telefoneResponsavel())
+                .endereco(
+                    new Endereco(
                         dto.endereco().cep(),
                         dto.endereco().logradouro(),
                         dto.endereco().bairro(),

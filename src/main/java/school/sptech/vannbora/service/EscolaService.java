@@ -70,12 +70,32 @@ public class EscolaService {
         return repository.save(escola);
     }
 
+    
+    public Escola cadastrar(Escola escola, int proprietarioServicoId) {
+        Endereco endereco = 
+            Endereco.builder()
+            .cep(escola.getEndereco().getCep())
+            .bairro(escola.getEndereco().getBairro())
+            .logradouro(escola.getEndereco().getLogradouro())
+            .cidade(escola.getEndereco().getCidade())
+            .numero(escola.getEndereco().getNumero())
+            .build();
+        endereco = enderecoService.cadastrar(endereco);
+        
+        escola.setEndereco(endereco);
+
+        ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(proprietarioServicoId);
+        escola.setProprietarioServico(proprietarioServico);
+
+        return repository.save(escola);
+    }
+
     public Escola atualizar(int id, Escola escola){
         Escola escolaAtual = repository.findById(id).orElseThrow(
                 () -> new RegistroNaoEncontradoException("Escola não encontrada")
         );
 
-        enderecoService.atualizar(escola.getEndereco().getId(), escola.getEndereco());
+        escolaAtual.setEndereco(enderecoService.atualizar(escola.getEndereco().getId(), escola.getEndereco()));
         
         escolaAtual.setNome(escola.getNome());
         escolaAtual.setNomeResponsavel(escola.getNomeResponsavel());

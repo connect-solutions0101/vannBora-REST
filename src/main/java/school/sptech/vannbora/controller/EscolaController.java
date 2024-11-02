@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import school.sptech.vannbora.dto.escola.EscolaAlunosResponseDto;
 import school.sptech.vannbora.dto.escola.EscolaEditRequestDto;
+import school.sptech.vannbora.dto.escola.EscolaEnderecoRequestDto;
 import school.sptech.vannbora.dto.escola.EscolaRequestDto;
 import school.sptech.vannbora.dto.escola.EscolaResponseDto;
 import school.sptech.vannbora.entidade.Escola;
@@ -15,6 +16,9 @@ import school.sptech.vannbora.mapper.EscolaMapper;
 import school.sptech.vannbora.service.EscolaService;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/escolas")
@@ -60,6 +64,16 @@ public class EscolaController {
 
         return ResponseEntity.created(null).body(EscolaMapper.toEscolaResponseDto(service.cadastrar(escola, dto.enderecoId(), dto.proprietarioServicoId())));
     }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<EscolaResponseDto> cadastrar(@Valid @RequestBody EscolaEnderecoRequestDto dto, @PathVariable int id){
+        Escola escola = EscolaMapper.toEscola(dto);
+
+        Escola escolaCadastrada = service.cadastrar(escola, id);
+
+        return ResponseEntity.created(null).body(EscolaMapper.toEscolaResponseDto(escolaCadastrada));
+    }
+    
 
     @Operation(summary = "Atualizar Escola ", description = "Método atualiza a escola pelo id inserido no banco de dados.", tags = "Escola Controller")
     @PutMapping("/{id}")
