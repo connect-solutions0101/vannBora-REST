@@ -15,9 +15,9 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
 
     List<Fatura> findAllByResponsavelDependenteResponsavelId(int responsavelId);
   
-    @Query("SELECT f FROM Fatura f WHERE f.dataVencimento BETWEEN :inicio AND :fim")
-    List<Fatura> findAllbyDataVencimento(@Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
+    // @Query("SELECT f FROM Fatura f WHERE f.dataVencimento BETWEEN :inicio AND :fim")
+    // List<Fatura> findAllbyDataVencimento(@Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
   
-    int countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(int dependenteId, Pago pago,
-            LocalDate comecoMes, LocalDate fimMes);
+    // int countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(int dependenteId, Pago pago,
+    //         LocalDate comecoMes, LocalDate fimMes);
 }

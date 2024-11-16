@@ -24,7 +24,7 @@ public class FinancasService {
         LocalDate inicio = ultimoMes.atDay(1);
         LocalDate fim = ultimoMes.atEndOfMonth();
 
-        List<Fatura> faturas = faturaRepository.findAllbyDataVencimento(inicio, fim);
+        List<Fatura> faturas = faturaRepository.findAll();
         List<FaturaCsvDto> faturaCsvDtos = faturas.stream()
                 .map(FaturaCsvMapper::toCsvDto)
                 .toList();
@@ -52,7 +52,6 @@ public class FinancasService {
                 dto.nomeResponsavel(),
                 dto.nomeDependente(),
                 dto.parentescoResponsavel(),
-                dto.dataPagamento() != null ? dto.dataPagamento().toString() : "",
                 dto.valorPagamento(),
                 dto.pago() ? "Sim" : "Não"
                 )

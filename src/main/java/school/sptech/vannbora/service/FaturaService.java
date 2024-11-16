@@ -22,7 +22,6 @@ public class FaturaService {
 
     public Fatura salvar(Fatura fatura, int responsavelDependenteId, int dependenteId) {
         fatura.setResponsavelDependente(responsavelDependenteService.buscarPorId(responsavelDependenteId, dependenteId));
-        fatura.setDataPagamento(LocalDate.now());
         return faturaRepository.save(fatura);
     }
 
@@ -44,7 +43,8 @@ public class FaturaService {
         LocalDate now = LocalDate.now();
         LocalDate comecoMes = now.withDayOfMonth(1);
         LocalDate fimMes = now.withDayOfMonth(now.lengthOfMonth());
-        return faturaRepository.countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(dependenteId, Pago.NAO_PAGO, comecoMes, fimMes);
+        return 0;
+        // return faturaRepository.countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(dependenteId, Pago.NAO_PAGO, comecoMes, fimMes);
     }
 
     public List<Fatura> listarPorIdResponsavel(int responsavelId) {
@@ -58,9 +58,7 @@ public class FaturaService {
 
         faturaAtual.setResponsavelDependente(responsavelDependenteService.buscarPorId(responsavelDependenteId, dependenteId));
         faturaAtual.setValor(fatura.getValor());
-        faturaAtual.setPago(fatura.getPago());
-        faturaAtual.setDataVencimento(fatura.getDataVencimento());
-        faturaAtual.setDataPagamento(fatura.getDataPagamento());
+        faturaAtual.setDiaPagamento(fatura.getDiaPagamento());
 
         return faturaRepository.save(faturaAtual);
     }
