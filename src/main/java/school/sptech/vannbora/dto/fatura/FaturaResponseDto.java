@@ -12,7 +12,7 @@ public record FaturaResponseDto(
         double valor,
         Pago pago,
         LocalDate dataVencimento,
-        LocalDate dataPagamento,
+        int diaPagamento,
         ResponsavelDependenteResponseDto responsavelDependenteId
 ) {
     

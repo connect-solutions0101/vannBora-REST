@@ -1,7 +1,5 @@
 package school.sptech.vannbora.dto.fatura;
 
-import java.time.LocalDate;
-
 public record FaturaCsvDto (
         String nomeResponsavel,
 
@@ -9,7 +7,7 @@ public record FaturaCsvDto (
 
         String parentescoResponsavel,
 
-        LocalDate dataPagamento,
+        int diaPagamento,
 
         Double valorPagamento,
 

@@ -1,5 +1,4 @@
 package school.sptech.vannbora;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,7 +9,5 @@ public class VannboraApplication {
 		SpringApplication app = new SpringApplication(VannboraApplication.class);
         app.addListeners(new DotenvListener());
         app.run(args);
-		
 	}
-
 }

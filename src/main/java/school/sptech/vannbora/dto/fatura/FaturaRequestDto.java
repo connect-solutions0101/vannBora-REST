@@ -1,8 +1,5 @@
 package school.sptech.vannbora.dto.fatura;
 
-import java.time.LocalDate;
-
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -11,11 +8,13 @@ public record FaturaRequestDto(
         @NotNull
         Double valor,
 
-        Boolean pago,
+        @NotNull
+        @Positive
+        int diaPagamento,
 
         @NotNull
-        @Future
-        LocalDate dataVencimento,
+        @Positive
+        int quantidadeParcelas,
 
         @NotNull
         @Positive

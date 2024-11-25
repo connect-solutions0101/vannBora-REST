@@ -1,20 +1,21 @@
 package school.sptech.vannbora.entidade;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.vannbora.enums.Pago;
 
 @Entity
 @Getter
@@ -22,20 +23,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Fatura {
+public class RegistroFatura {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
-    @Column
-    private Double valor;
-    
-    @Column
-    private int diaPagamento;
 
-    @OneToMany(mappedBy = "fatura")
-    private List<RegistroFatura> registroFatura;
+    @Column
+    private LocalDate dataPagamento;
+
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private Pago pago;
 
     @ManyToOne
-    private ResponsavelDependente responsavelDependente;    
+    private Fatura fatura;
 }
