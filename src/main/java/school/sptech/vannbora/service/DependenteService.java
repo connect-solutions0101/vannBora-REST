@@ -2,19 +2,24 @@ package school.sptech.vannbora.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.vannbora.repository.DependenteRepository;
-
+import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFaturaRequestDto.Fatura;
 import school.sptech.vannbora.entidade.Dependente;
+import school.sptech.vannbora.entidade.Endereco;
 import school.sptech.vannbora.entidade.Escola;
 import school.sptech.vannbora.entidade.ProprietarioServico;
+import school.sptech.vannbora.entidade.Responsavel;
+import school.sptech.vannbora.entidade.ResponsavelDependente;
+import school.sptech.vannbora.enums.TipoResponsavel;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 
 @Service
-@RequiredArgsConstructor
 public class DependenteService {
     
     private final DependenteRepository repository;
@@ -22,6 +27,21 @@ public class DependenteService {
     private final EscolaService escolaService;
 
     private final ProprietarioServicoService proprietarioServicoService;
+
+    private final FaturaService faturaService;
+
+    private final ResponsavelService responsavelService;
+
+    private final EnderecoService enderecoService;
+
+    public DependenteService(DependenteRepository repository, @Lazy EscolaService escolaService, @Lazy ProprietarioServicoService proprietarioServicoService, @Lazy FaturaService faturaService, @Lazy ResponsavelService responsavelService, @Lazy EnderecoService enderecoService) {
+        this.repository = repository;
+        this.escolaService = escolaService;
+        this.proprietarioServicoService = proprietarioServicoService;
+        this.faturaService = faturaService;
+        this.responsavelService = responsavelService;
+        this.enderecoService = enderecoService;
+    }
 
     public List<Dependente> listar() {
         return repository.findAll();
@@ -59,7 +79,55 @@ public class DependenteService {
         dependenteAtual.setTurma(dependente.getTurma());
         dependenteAtual.setTurno(dependente.getTurno());
         dependenteAtual.setCondicao(dependente.getCondicao());
+        
+        return repository.save(dependenteAtual);
+    }
 
+    public Dependente atualizarFull(int id, Dependente dependenteEntity, Integer escolaId, Fatura fatura) {
+        Dependente dependenteAtual = repository.findById(id).orElseThrow(
+            () -> new RegistroNaoEncontradoException("Dependente não encontrado")
+        );
+
+        Escola escola = escolaService.buscarPorId(escolaId);
+        dependenteAtual.setEscola(escola);
+
+        ResponsavelDependente responsavelFinanceiro = dependenteEntity.getResponsaveis().stream()
+            .filter(responsavel -> responsavel.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO))
+            .findFirst().orElseThrow(
+                () -> new RegistroNaoEncontradoException("Responsável financeiro não encontrado")
+            );
+
+        faturaService.atualizar(
+            school.sptech.vannbora.entidade.Fatura.builder()
+                .id(fatura.id())
+                .valor(fatura.valor())
+                .diaPagamento(fatura.diaPagamento())
+                .quantidadeParcelas(fatura.quantidadeParcelas())
+                .build()
+        , responsavelFinanceiro.getResponsavel().getId(), dependenteAtual.getId());
+
+        dependenteEntity.getResponsaveis().forEach(
+            responsavel -> {
+                if (responsavel != null && responsavel.getResponsavel() != null) {
+                    responsavelService.atualizar(
+                        responsavel.getResponsavel().getId(),
+                        responsavel.getResponsavel(),
+                        responsavel.getResponsavel().getEndereco().getId()
+                    );
+                }
+            }
+        );
+
+        enderecoService.atualizar(
+            responsavelFinanceiro.getResponsavel().getEndereco().getId(), responsavelFinanceiro.getResponsavel().getEndereco()
+        );
+
+        dependenteAtual.setNome(dependenteEntity.getNome());
+        dependenteAtual.setDataNascimento(dependenteEntity.getDataNascimento());
+        dependenteAtual.setTurma(dependenteEntity.getTurma());
+        dependenteAtual.setTurno(dependenteEntity.getTurno());
+        dependenteAtual.setCondicao(dependenteEntity.getCondicao());
+        
         return repository.save(dependenteAtual);
     }
 

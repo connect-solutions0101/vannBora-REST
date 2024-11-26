@@ -12,6 +12,7 @@ public class ResponsavelMapper {
                 .nome(responsavel.nome())
                 .telefone(responsavel.telefone())
                 .parentesco(responsavel.parentesco())
+                .cpf(responsavel.cpf())
                 .build();
     }
     
@@ -21,6 +22,7 @@ public class ResponsavelMapper {
                 .nome(responsavel.getNome())
                 .telefone(responsavel.getTelefone())
                 .parentesco(responsavel.getParentesco())
+                .cpf(responsavel.getCpf())
                 .endereco(EnderecoMapper.toEnderecoResponseDto(responsavel.getEndereco()))
                 .proprietarioServico(ProprietarioServicoMapper.toProprietarioServicoResponseDto(responsavel.getProprietarioServico()))
                 .build();

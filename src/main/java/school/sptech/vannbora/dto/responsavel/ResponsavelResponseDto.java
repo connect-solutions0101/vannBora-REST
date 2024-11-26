@@ -10,6 +10,7 @@ public record ResponsavelResponseDto(
         String nome,
         String telefone,
         String parentesco,
+        String cpf,
         EnderecoResponseDto endereco,
         ProprietarioServicoResponseDto proprietarioServico
 ) {}

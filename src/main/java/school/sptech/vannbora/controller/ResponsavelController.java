@@ -55,7 +55,7 @@ public class ResponsavelController {
     public ResponseEntity<ResponsavelResponseDto> atualizar(@PathVariable int id, @Valid @RequestBody ResponsavelRequestDto responsavel){
         Responsavel responsavelEntity = ResponsavelMapper.toEntity(responsavel);
 
-        return ResponseEntity.ok(ResponsavelMapper.toResponseDto(service.atualizar(id, responsavelEntity, responsavel.enderecoId(), responsavel.proprietarioServicoId())));
+        return ResponseEntity.ok(ResponsavelMapper.toResponseDto(service.atualizar(id, responsavelEntity, responsavel.enderecoId())));
     }
     @Operation(summary = "Deletar Responsável ", description = "Método deleta a escola pelo id inserido no banco de dados.", tags = "Responsável Controller")
     @DeleteMapping("/{id}")

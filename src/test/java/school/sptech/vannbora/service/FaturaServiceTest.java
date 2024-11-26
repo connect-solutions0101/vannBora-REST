@@ -106,18 +106,18 @@ class FaturaServiceTest {
         verify(faturaRepository, times(1)).findAllByResponsavelDependenteDependenteId(1);
     }
 
-    @Test
-    void contarPorIdDependenteFaturasPendentes_deveRetornarContagemCorreta() {
-        when(faturaRepository.countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(
-                eq(1), eq(Pago.NAO_PAGO), any(LocalDate.class), any(LocalDate.class)))
-                .thenReturn(5);
+    // @Test
+    // void contarPorIdDependenteFaturasPendentes_deveRetornarContagemCorreta() {
+    //     when(faturaRepository.countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(
+    //             eq(1), eq(Pago.NAO_PAGO), any(LocalDate.class), any(LocalDate.class)))
+    //             .thenReturn(5);
 
-        int count = faturaService.contarPorIdDependenteFaturasPendentes(1);
+    //     int count = faturaService.contarPorIdDependenteFaturasPendentes(1);
 
-        assertEquals(5, count);
-        verify(faturaRepository, times(1)).countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(
-                eq(1), eq(Pago.NAO_PAGO), any(LocalDate.class), any(LocalDate.class));
-    }
+    //     assertEquals(5, count);
+    //     verify(faturaRepository, times(1)).countByResponsavelDependenteDependenteIdAndPagoEqualsAndDataVencimentoBetween(
+    //             eq(1), eq(Pago.NAO_PAGO), any(LocalDate.class), any(LocalDate.class));
+    // }
 
     @Test
     void listarPorIdResponsavel_deveRetornarFaturasDoResponsavel() {

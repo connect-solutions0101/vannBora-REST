@@ -31,7 +31,10 @@ public class Fatura {
     private Double valor;
     
     @Column
-    private int diaPagamento;
+    private Integer diaPagamento;
+
+    @Column
+    private Integer quantidadeParcelas;
 
     @OneToMany(mappedBy = "fatura")
     private List<RegistroFatura> registroFatura;

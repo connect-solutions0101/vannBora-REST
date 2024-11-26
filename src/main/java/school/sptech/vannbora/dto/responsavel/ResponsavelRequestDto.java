@@ -1,5 +1,8 @@
 package school.sptech.vannbora.dto.responsavel;
 
+import org.hibernate.validator.constraints.br.CPF;
+
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -12,6 +15,10 @@ public record ResponsavelRequestDto(
 
     @Size(min = 2, message = "O parentesco deve ter no mínimo 2 caracteres")
     String parentesco,
+
+    @NotBlank(message = "O CPF é obrigatório")
+    @CPF(message = "O CPF deve ser válido")
+    String cpf,
 
     int enderecoId,
 
