@@ -12,7 +12,8 @@ public record FaturaResponseDto(
         double valor,
         Pago pago,
         LocalDate dataVencimento,
-        int diaPagamento,
+        Integer diaPagamento,
+        Integer quantidadeParcelas,
         ResponsavelDependenteResponseDto responsavelDependenteId
 ) {
     

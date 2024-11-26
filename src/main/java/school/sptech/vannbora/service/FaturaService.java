@@ -59,6 +59,7 @@ public class FaturaService {
         faturaAtual.setResponsavelDependente(responsavelDependenteService.buscarPorId(responsavelDependenteId, dependenteId));
         faturaAtual.setValor(fatura.getValor());
         faturaAtual.setDiaPagamento(fatura.getDiaPagamento());
+        faturaAtual.setQuantidadeParcelas(fatura.getQuantidadeParcelas());
 
         return faturaRepository.save(faturaAtual);
     }

@@ -41,16 +41,13 @@ public class ResponsavelService {
         return repository.save(responsavel);
     }
 
-    public Responsavel atualizar(int id, Responsavel responsavel, int enderecoId, int proprietarioServicoId){
+    public Responsavel atualizar(int id, Responsavel responsavel, int enderecoId){
         Responsavel responsavelAtual = repository.findById(id).orElseThrow(
             () -> new RegistroNaoEncontradoException("Responsável não encontrado")
         );
 
         Endereco endereco = enderecoService.buscarPorId(enderecoId);
         responsavelAtual.setEndereco(endereco);
-
-        ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(proprietarioServicoId);
-        responsavelAtual.setProprietarioServico(proprietarioServico);
 
         responsavelAtual.setNome(responsavel.getNome());
         responsavelAtual.setTelefone(responsavel.getTelefone());

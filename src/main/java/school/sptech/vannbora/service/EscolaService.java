@@ -4,12 +4,10 @@ package school.sptech.vannbora.service;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import school.sptech.vannbora.dto.escola.EscolaAlunosResponseDto;
 import school.sptech.vannbora.entidade.Endereco;
 import school.sptech.vannbora.entidade.Escola;
 import school.sptech.vannbora.entidade.ProprietarioServico;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
-import school.sptech.vannbora.mapper.EscolaMapper;
 import school.sptech.vannbora.repository.EscolaRepository;
 
 import java.util.List;
@@ -40,14 +38,8 @@ public class EscolaService {
         return repository.findAll();
     }
 
-    public List<EscolaAlunosResponseDto> listarFull(int id){
-        List<Escola> escolas = repository.findAllByProprietarioServicoId(id);
-
-        List<EscolaAlunosResponseDto> dtoLista = escolas.stream()
-            .map(escola -> EscolaMapper.toEscolaResponseDto(escola, escola.getDependentes().size(), this.contarPagamentosPendentesPorId(escola.getId())))
-            .toList();
-        
-        return dtoLista;
+    public List<Escola> listarPorProprietario(int id){
+        return repository.findAllByProprietarioServicoId(id);
     }
 
     public int contarPagamentosPendentesPorId(int id){

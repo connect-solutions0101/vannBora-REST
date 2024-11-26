@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import school.sptech.vannbora.dto.dependente.DependenteEscolaResponsaveisResponseDto;
 import school.sptech.vannbora.dto.dependente.DependenteRequestDto;
+import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFaturaRequestDto;
+import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFaturaResponseDto;
 import school.sptech.vannbora.dto.dependente.DependenteResponseDto;
 import school.sptech.vannbora.entidade.Dependente;
 import school.sptech.vannbora.mapper.DependenteMapper;
@@ -23,8 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-
 
 
 @RestController
@@ -58,6 +58,13 @@ public class DependenteController {
         Dependente dependente = dependenteService.buscarPorId(id);
         return ResponseEntity.ok(DependenteMapper.toDependenteResponseDto(dependente));
     }
+
+    @GetMapping("/fullPorId/{id}")
+    public ResponseEntity<DependenteResponsavelEnderecoFaturaResponseDto> buscarFullPorId(@PathVariable int id) {
+        Dependente dependente = dependenteService.buscarPorId(id);
+        return ResponseEntity.ok(DependenteMapper.toDependenteResponsavelEnderecoFaturaResponseDto(dependente));
+    }
+    
     @Operation(summary = "Salvar Dependentes", description = "Método salva o dependente inserido pelo usuário no banco..", tags = "Dependentes Controller")
     @PostMapping
     public ResponseEntity<DependenteResponseDto> salvar(@RequestBody @Valid DependenteRequestDto dependente) {
@@ -72,6 +79,14 @@ public class DependenteController {
         dependenteEntity = dependenteService.atualizar(id, dependenteEntity, dependente.escolaId(), dependente.proprietarioServicoId());
         return ResponseEntity.ok(DependenteMapper.toDependenteResponseDto(dependenteEntity));
     }
+
+    @PutMapping("/full/{id}")
+    public ResponseEntity<DependenteResponsavelEnderecoFaturaResponseDto> atualizarFull(@PathVariable int id, @RequestBody @Valid DependenteResponsavelEnderecoFaturaRequestDto dependente) {
+        Dependente dependenteEntity = DependenteMapper.toDependente(dependente);
+        dependenteEntity = dependenteService.atualizarFull(id, dependenteEntity, dependente.escolaId(), dependente.fatura());
+        return ResponseEntity.ok(DependenteMapper.toDependenteResponsavelEnderecoFaturaResponseDto(dependenteEntity));
+    }
+
     @Operation(summary = "Deletar Dependentes Por ID", description = "Método deleta o dependente inserido pelo usuário no banco..", tags = "Dependentes Controller")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id) {

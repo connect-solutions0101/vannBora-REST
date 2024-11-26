@@ -15,6 +15,7 @@ public class FaturaMapper {
                 .id(fatura.getId())
                 .valor(fatura.getValor())
                 .diaPagamento(fatura.getDiaPagamento())
+                .quantidadeParcelas(fatura.getQuantidadeParcelas())
                 .responsavelDependenteId(
                         ResponsavelDependenteMapper.toResponseDto(fatura.getResponsavelDependente())
                 )
@@ -30,6 +31,8 @@ public class FaturaMapper {
 
         return Fatura.builder()
                 .valor(dto.valor())
+                .diaPagamento(dto.diaPagamento())
+                .quantidadeParcelas(dto.quantidadeParcelas())
                 .build();
     }
 }

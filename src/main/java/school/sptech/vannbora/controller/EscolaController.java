@@ -16,8 +16,6 @@ import school.sptech.vannbora.mapper.EscolaMapper;
 import school.sptech.vannbora.service.EscolaService;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -41,13 +39,28 @@ public class EscolaController {
     @Operation(summary = "Listar Tudo", description = "Método lista alunos e dependentes.", tags = "Escola Controller")
     @GetMapping("/full/{id}")
     public ResponseEntity<List<EscolaAlunosResponseDto>> listarFull(@PathVariable int id){
-        List<EscolaAlunosResponseDto> escolas = service.listarFull(id);
+        List<Escola> escolas = service.listarPorProprietario(id);
+
+        List<EscolaAlunosResponseDto> dtoLista = escolas.stream()
+            .map(escola -> EscolaMapper.toEscolaResponseDto(escola, escola.getDependentes().size(), service.contarPagamentosPendentesPorId(escola.getId())))
+            .toList();
 
         if(escolas.isEmpty()){
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(escolas);
+        return ResponseEntity.ok(dtoLista);
+    }
+
+    @GetMapping("/proprietario/{id}")
+    public ResponseEntity<List<EscolaResponseDto>> listarPorProprietario(@PathVariable int id){
+        List<Escola> escolas = service.listarPorProprietario(id);
+
+        if(escolas.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(escolas.stream().map(EscolaMapper::toEscolaResponseDto).toList());
     }
 
     @Operation(summary = "Busca Escola Por Id", description = "Método busca a escola pelo id inserido pelo usuário no banco de dados.", tags = "Escola Controller")

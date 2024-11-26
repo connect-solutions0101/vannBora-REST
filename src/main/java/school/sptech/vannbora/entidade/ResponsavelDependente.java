@@ -1,5 +1,7 @@
 package school.sptech.vannbora.entidade;
 
+import java.util.List;
+
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -8,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,11 +42,15 @@ public class ResponsavelDependente {
     @Enumerated(EnumType.STRING)
     private TipoResponsavel tipoResponsavel;
 
+    @OneToMany(mappedBy = "responsavelDependente")
+    private List<Fatura> fatura;
+
     @Embeddable
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class ResponsavelDependenteId {
         private int responsavelId;
         private int dependenteId;
