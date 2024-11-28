@@ -2,6 +2,7 @@ package school.sptech.vannbora.controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +24,14 @@ public class RegistroFaturaController {
     
     private final RegistroFaturaService registroFaturaService;
 
+    @Operation(summary = "Salvar Registro da Fatura", description = "Método salva o registro da fatura inserido pelo usuário no banco de dados.", tags = "Registro Fatura Controller")
     @PostMapping
     public ResponseEntity<RegistroFaturaResponseDto> salvar(@RequestBody RegistroFaturaRequestDto registroFatura) {
         return ResponseEntity.created(null).body(RegistroFaturaMapper.toRegistroFaturaResponseDto(
             registroFaturaService.salvar(RegistroFaturaMapper.toRegistroFatura(registroFatura))
         ));
     }
-
+    @Operation(summary = "Listar Registro da Fatura", description = "Método lista o registro da fatura inserido pelo usuário no banco de dados.", tags = "Registro Fatura Controller")
     @GetMapping("/{faturaId}")
     public ResponseEntity<List<RegistroFaturaResponseDto>> listar(@PathVariable int faturaId) {
         return ResponseEntity.ok(registroFaturaService.listarPorFaturaId(faturaId).stream().map(

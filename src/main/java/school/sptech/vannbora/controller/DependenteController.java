@@ -42,7 +42,7 @@ public class DependenteController {
 
         return ResponseEntity.ok(dependentes.stream().map(DependenteMapper::toDependenteResponseDto).collect(Collectors.toList()));
     }
-
+    @Operation(summary = "Listar tudo", description = "Método lista todos os dados do dependente inseridos no banco de dados.", tags = "Dependentes Controller")
     @GetMapping("/full/{id}")
     public ResponseEntity<List<DependenteEscolaResponsaveisResponseDto>> listarFull(@PathVariable int id) {
         List<Dependente> dependentes = dependenteService.listarFull(id);
@@ -51,35 +51,35 @@ public class DependenteController {
 
         return ResponseEntity.ok(dependentes.stream().map(DependenteMapper::toDependenteEscolaResponseDto).collect(Collectors.toList()));
     }
-    
+
     @Operation(summary = "Buscar Por Id", description = "Método busca o dependente pelo id inserido pelo usuário no banco de dados.", tags = "Dependentes Controller")
     @GetMapping("/{id}")
     public ResponseEntity<DependenteResponseDto> buscarPorId(@PathVariable int id) {
         Dependente dependente = dependenteService.buscarPorId(id);
         return ResponseEntity.ok(DependenteMapper.toDependenteResponseDto(dependente));
     }
-
+    @Operation(summary = "Buscar todos os Dependentes por Id", description = "Método busca todos os dependentes por Id no banco de dados .", tags = "Dependentes Controller")
     @GetMapping("/fullPorId/{id}")
     public ResponseEntity<DependenteResponsavelEnderecoFaturaResponseDto> buscarFullPorId(@PathVariable int id) {
         Dependente dependente = dependenteService.buscarPorId(id);
         return ResponseEntity.ok(DependenteMapper.toDependenteResponsavelEnderecoFaturaResponseDto(dependente));
     }
     
-    @Operation(summary = "Salvar Dependentes", description = "Método salva o dependente inserido pelo usuário no banco..", tags = "Dependentes Controller")
+    @Operation(summary = "Salvar Dependentes", description = "Método salva o dependente inserido pelo usuário no banco de dados.", tags = "Dependentes Controller")
     @PostMapping
     public ResponseEntity<DependenteResponseDto> salvar(@RequestBody @Valid DependenteRequestDto dependente) {
         Dependente dependenteEntity = DependenteMapper.toDependente(dependente);
         dependenteEntity = dependenteService.salvar(dependenteEntity, dependente.escolaId(), dependente.proprietarioServicoId());
         return ResponseEntity.created(null).body(DependenteMapper.toDependenteResponseDto(dependenteEntity));
     }
-    @Operation(summary = "Atualizar Dependentes Por Id", description = "Método atualiza o dependente inserido pelo usuário no banco..", tags = "Dependentes Controller")
+    @Operation(summary = "Atualizar Dependentes Por Id", description = "Método atualiza o dependente inserido pelo usuário no banco de dados.", tags = "Dependentes Controller")
     @PutMapping("/{id}")
     public ResponseEntity<DependenteResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid DependenteRequestDto dependente) {
         Dependente dependenteEntity = DependenteMapper.toDependente(dependente);
         dependenteEntity = dependenteService.atualizar(id, dependenteEntity, dependente.escolaId(), dependente.proprietarioServicoId());
         return ResponseEntity.ok(DependenteMapper.toDependenteResponseDto(dependenteEntity));
     }
-
+    @Operation(summary = "Atualizar todos os Dependentes", description = "Método lista o dependentes inserido pelo usuário no banco de dados.", tags = "Dependentes Controller")
     @PutMapping("/full/{id}")
     public ResponseEntity<DependenteResponsavelEnderecoFaturaResponseDto> atualizarFull(@PathVariable int id, @RequestBody @Valid DependenteResponsavelEnderecoFaturaRequestDto dependente) {
         Dependente dependenteEntity = DependenteMapper.toDependente(dependente);

@@ -51,7 +51,7 @@ public class EscolaController {
 
         return ResponseEntity.ok(dtoLista);
     }
-
+    @Operation(summary = "Listar por Proprietário", description = "Método lista por proprietário inserido pelo usuário no banco..", tags = "Escola Controller")
     @GetMapping("/proprietario/{id}")
     public ResponseEntity<List<EscolaResponseDto>> listarPorProprietario(@PathVariable int id){
         List<Escola> escolas = service.listarPorProprietario(id);
@@ -78,6 +78,8 @@ public class EscolaController {
         return ResponseEntity.created(null).body(EscolaMapper.toEscolaResponseDto(service.cadastrar(escola, dto.enderecoId(), dto.proprietarioServicoId())));
     }
 
+
+    @Operation(summary = "Cadastrar Escola", description = "Método cadastra a escola inserido pelo usuário no banco..", tags = "Escola Controller")
     @PostMapping("/{id}")
     public ResponseEntity<EscolaResponseDto> cadastrar(@Valid @RequestBody EscolaEnderecoRequestDto dto, @PathVariable int id){
         Escola escola = EscolaMapper.toEscola(dto);
