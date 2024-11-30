@@ -12,7 +12,13 @@ import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFatura
 import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFaturaResponseDto;
 import school.sptech.vannbora.dto.dependente.DependenteResponseDto;
 import school.sptech.vannbora.entidade.Dependente;
+import school.sptech.vannbora.entidade.Endereco;
+import school.sptech.vannbora.entidade.Fatura;
+import school.sptech.vannbora.entidade.Responsavel;
 import school.sptech.vannbora.mapper.DependenteMapper;
+import school.sptech.vannbora.mapper.EnderecoMapper;
+import school.sptech.vannbora.mapper.FaturaMapper;
+import school.sptech.vannbora.mapper.ResponsavelMapper;
 import school.sptech.vannbora.service.DependenteService;
 
 import java.util.List;
@@ -72,6 +78,20 @@ public class DependenteController {
         dependenteEntity = dependenteService.salvar(dependenteEntity, dependente.escolaId(), dependente.proprietarioServicoId());
         return ResponseEntity.created(null).body(DependenteMapper.toDependenteResponseDto(dependenteEntity));
     }
+
+    @PostMapping("/full/{id}")
+    public ResponseEntity<DependenteResponseDto> salvarFull(@RequestBody @Valid DependenteResponsavelEnderecoFaturaRequestDto dependente, @PathVariable int id) {
+        Dependente dependenteEntity = DependenteMapper.toDependente(dependente);
+        Responsavel responsavelFinanceiro = ResponsavelMapper.toEntity(dependente.responsaveis().stream().filter(r -> r.tipoResponsavel().equals("FINANCEIRO")).findFirst().get().responsavel());
+        Responsavel responsavelSecundario = ResponsavelMapper.toEntity(dependente.responsaveis().stream().filter(r -> r.tipoResponsavel().equals("PADRAO") && r.responsavel().cpf() != null).findFirst().map(r -> r.responsavel()).orElse(null));
+        Endereco endereco = EnderecoMapper.toEndereco(dependente.responsaveis().stream().filter(r -> r.tipoResponsavel().equals("FINANCEIRO")).findFirst().get().responsavel().endereco());
+        Fatura fatura = FaturaMapper.toFatura(dependente.fatura());
+
+        dependenteEntity = dependenteService.salvarFull(id, dependenteEntity, dependente.escolaId(), responsavelFinanceiro, responsavelSecundario, endereco, fatura);
+
+        return ResponseEntity.created(null).body(DependenteMapper.toDependenteResponseDto(dependenteEntity));
+    }
+
     @Operation(summary = "Atualizar Dependentes Por Id", description = "Método atualiza o dependente inserido pelo usuário no banco de dados.", tags = "Dependentes Controller")
     @PutMapping("/{id}")
     public ResponseEntity<DependenteResponseDto> atualizar(@PathVariable int id, @RequestBody @Valid DependenteRequestDto dependente) {

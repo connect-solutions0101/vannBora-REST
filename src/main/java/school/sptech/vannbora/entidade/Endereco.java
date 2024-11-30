@@ -12,7 +12,7 @@ import lombok.*;
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column
     private String cep;

@@ -1,5 +1,6 @@
 package school.sptech.vannbora.mapper;
 
+import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFaturaRequestDto;
 import school.sptech.vannbora.dto.fatura.FaturaRequestDto;
 import school.sptech.vannbora.dto.fatura.FaturaResponseDto;
 import school.sptech.vannbora.entidade.Fatura;
@@ -33,6 +34,18 @@ public class FaturaMapper {
                 .valor(dto.valor())
                 .diaPagamento(dto.diaPagamento())
                 .quantidadeParcelas(dto.quantidadeParcelas())
+                .build();
+    }
+
+    public static Fatura toFatura(DependenteResponsavelEnderecoFaturaRequestDto.Fatura fatura) {
+        if(fatura == null){
+            return null;
+        }
+
+        return Fatura.builder()
+                .valor(fatura.valor())
+                .diaPagamento(fatura.diaPagamento())
+                .quantidadeParcelas(fatura.quantidadeParcelas())
                 .build();
     }
 }
