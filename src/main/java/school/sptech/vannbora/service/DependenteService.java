@@ -32,14 +32,17 @@ public class DependenteService {
 
     private final ResponsavelService responsavelService;
 
+    private final ResponsavelDependenteService responsavelDependenteService;
+
     private final EnderecoService enderecoService;
 
-    public DependenteService(DependenteRepository repository, @Lazy EscolaService escolaService, @Lazy ProprietarioServicoService proprietarioServicoService, @Lazy FaturaService faturaService, @Lazy ResponsavelService responsavelService, @Lazy EnderecoService enderecoService) {
+    public DependenteService(DependenteRepository repository, @Lazy EscolaService escolaService, @Lazy ProprietarioServicoService proprietarioServicoService, @Lazy FaturaService faturaService, @Lazy ResponsavelService responsavelService, @Lazy ResponsavelDependenteService responsavelDependenteService, @Lazy EnderecoService enderecoService) {
         this.repository = repository;
         this.escolaService = escolaService;
         this.proprietarioServicoService = proprietarioServicoService;
         this.faturaService = faturaService;
         this.responsavelService = responsavelService;
+        this.responsavelDependenteService = responsavelDependenteService;
         this.enderecoService = enderecoService;
     }
 
@@ -143,5 +146,49 @@ public class DependenteService {
         return repository.findById(id).orElseThrow(
             () -> new RegistroNaoEncontradoException("Dependente não encontrado")
         );
+    }
+
+    public Dependente salvarFull(int idProprietario, Dependente dependenteEntity, Integer escolaId, Responsavel responsavelFinanceiro,
+            Responsavel responsavelSecundario, Endereco endereco, school.sptech.vannbora.entidade.Fatura fatura) {
+
+        ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(idProprietario);
+        
+        Endereco enderecoSalvo = enderecoService.cadastrar(endereco);
+        
+
+        Escola escola = escolaService.buscarPorId(escolaId);
+        dependenteEntity.setEscola(escola);
+        dependenteEntity.setProprietarioServico(proprietarioServico);
+        Dependente dependenteSalvo = repository.save(dependenteEntity);
+        
+        responsavelFinanceiro = responsavelService.cadastrar(responsavelFinanceiro, enderecoSalvo.getId(), idProprietario);
+
+        ResponsavelDependente responsavelDependenteFinanceiro = responsavelDependenteService.cadastrar(
+            ResponsavelDependente.builder()
+            .dependente(dependenteSalvo)
+            .responsavel(responsavelFinanceiro)
+            .tipoResponsavel(TipoResponsavel.FINANCEIRO)
+            .build(), 
+            responsavelFinanceiro.getId(), 
+            dependenteSalvo.getId()
+        );
+
+        if (responsavelSecundario != null) {
+            responsavelSecundario = responsavelService.cadastrar(responsavelSecundario, null, idProprietario);
+
+            responsavelDependenteService.cadastrar(
+                ResponsavelDependente.builder()
+                .dependente(dependenteSalvo)
+                .responsavel(responsavelSecundario)
+                .tipoResponsavel(TipoResponsavel.PADRAO)
+                .build(), 
+                responsavelSecundario.getId(), 
+                dependenteSalvo.getId()
+            );
+        }
+    
+        faturaService.salvar(fatura, responsavelDependenteFinanceiro.getResponsavel().getId(), responsavelDependenteFinanceiro.getDependente().getId());
+
+        return dependenteSalvo;        
     }
 }

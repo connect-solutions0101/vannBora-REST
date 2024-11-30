@@ -52,7 +52,7 @@ public class ResponsavelDependente {
     @NoArgsConstructor
     @Builder
     public static class ResponsavelDependenteId {
-        private int responsavelId;
-        private int dependenteId;
+        private Integer responsavelId;
+        private Integer dependenteId;
     }
 }

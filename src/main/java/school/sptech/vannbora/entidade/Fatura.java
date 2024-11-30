@@ -25,7 +25,7 @@ import lombok.Setter;
 public class Fatura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     
     @Column
     private Double valor;

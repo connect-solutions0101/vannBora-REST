@@ -31,9 +31,11 @@ public class ResponsavelService {
         );
     }
 
-    public Responsavel cadastrar(Responsavel responsavel, int enderecoId, int proprietarioServicoId){
-        Endereco endereco = enderecoService.buscarPorId(enderecoId);
-        responsavel.setEndereco(endereco);
+    public Responsavel cadastrar(Responsavel responsavel, Integer enderecoId, int proprietarioServicoId){
+        if(enderecoId != null){
+            Endereco endereco = enderecoService.buscarPorId(enderecoId);
+            responsavel.setEndereco(endereco);
+        }
 
         ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(proprietarioServicoId);
         responsavel.setProprietarioServico(proprietarioServico);

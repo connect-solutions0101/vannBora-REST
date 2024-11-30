@@ -6,8 +6,8 @@ import school.sptech.vannbora.dto.responsavel.ResponsavelResponseDto;
 
 @Builder
 public record ResponsavelOnlyResponseDto(
-    int responsavelId,
-    int dependenteId,
+    Integer responsavelId,
+    Integer dependenteId,
     TipoResponsavel tipoResponsavel,
     ResponsavelResponseDto responsavel
 ) {
