@@ -150,6 +150,7 @@ public class DependenteService {
 
     public Dependente salvarFull(int idProprietario, Dependente dependenteEntity, Integer escolaId, Responsavel responsavelFinanceiro,
             Responsavel responsavelSecundario, Endereco endereco, school.sptech.vannbora.entidade.Fatura fatura) {
+        dependenteEntity.setDataCadastro(LocalDate.now());
 
         ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(idProprietario);
         
