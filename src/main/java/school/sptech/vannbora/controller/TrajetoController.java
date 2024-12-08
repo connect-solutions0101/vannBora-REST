@@ -24,7 +24,7 @@ public class TrajetoController {
 
     @PostMapping("/embarque")
     public ResponseEntity embarque(@RequestBody DependenteRequestDto dto){
-        if(pilha.isFull()) return ResponseEntity.status(429).body("A pilha está. Desembarque um dependente para embarcar outro.");
+        if(pilha.isFull()) return ResponseEntity.status(429).body("A pilha está cheia. Desembarque um dependente para embarcar outro.");
 
         Dependente dependente = DependenteMapper.toDependente(dto);
         pilha.push(dependente);
