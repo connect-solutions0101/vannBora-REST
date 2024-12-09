@@ -11,6 +11,7 @@ import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFatura
 import school.sptech.vannbora.dto.dependente.DependenteResponseDto;
 import school.sptech.vannbora.entidade.Dependente;
 import school.sptech.vannbora.entidade.Endereco;
+import school.sptech.vannbora.entidade.RegistroFatura;
 import school.sptech.vannbora.entidade.Responsavel;
 import school.sptech.vannbora.entidade.ResponsavelDependente;
 import school.sptech.vannbora.entidade.ResponsavelDependente.ResponsavelDependenteId;
@@ -50,8 +51,8 @@ public class DependenteMapper {
                     .map(ResponsavelDependenteMapper::toResponsavelResponseDto)
                     .collect(Collectors.toList())
             )
-            .ultimaFaturaPaga(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().get().getPago())
-            .ultimaFaturaId(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().get().getId())
+            .ultimaFaturaPaga(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().orElse(new RegistroFatura(null, null, null, null)).getPago())
+            .ultimaFaturaId(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().orElse(new RegistroFatura(null, null, null, null)).getId())
             .build();
     }
 
