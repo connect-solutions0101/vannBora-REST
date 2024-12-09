@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.vannbora.dto.dependente.DependenteRequestDto;
+import school.sptech.vannbora.dto.dependente.DependenteResponseDto;
+import school.sptech.vannbora.dto.dependente.DependenteResponseResumoDto;
 import school.sptech.vannbora.entidade.Dependente;
 import school.sptech.vannbora.entidade.FilaObj;
 import school.sptech.vannbora.entidade.PilhaObj;
@@ -19,13 +21,13 @@ public class TrajetoController {
 
 
     @GetMapping("/")
-    public ResponseEntity<Dependente[]> trajeto(){
+    public ResponseEntity<DependenteResponseResumoDto[]> trajeto(){
         if(fila.isEmpty()) return ResponseEntity.noContent().build();
 
-        Dependente[] dependentes = new Dependente[fila.getTamanho()];
+        DependenteResponseResumoDto[] dependentes = new DependenteResponseResumoDto[fila.getTamanho()];
         for (int i = 0; i < fila.getTamanho(); i++) {
             Dependente dependente = fila.poll();
-            dependentes[i] = dependente;
+            dependentes[i] = new DependenteResponseResumoDto(dependente.getId(), dependente.getNome());
             fila.insert(dependente);
         }
 
