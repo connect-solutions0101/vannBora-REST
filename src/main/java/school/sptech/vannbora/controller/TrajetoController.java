@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.vannbora.dto.dependente.DependenteRequestDto;
 import school.sptech.vannbora.entidade.Dependente;
+import school.sptech.vannbora.entidade.FilaObj;
 import school.sptech.vannbora.entidade.PilhaObj;
 import school.sptech.vannbora.mapper.DependenteMapper;
 
@@ -14,12 +15,21 @@ import school.sptech.vannbora.mapper.DependenteMapper;
 public class TrajetoController {
 
     PilhaObj<Dependente> pilha = new PilhaObj<>(30);
+    private final FilaObj<Dependente> fila = new FilaObj<>(new Dependente[30], 0, -1, 0);
+
 
     @GetMapping("/")
     public ResponseEntity<Dependente[]> trajeto(){
-        if(pilha.isEmpty()) return ResponseEntity.noContent().build();
+        if(fila.isEmpty()) return ResponseEntity.noContent().build();
 
-        return ResponseEntity.ok().body(pilha.getPilha());
+        Dependente[] dependentes = new Dependente[fila.getTamanho()];
+        for (int i = 0; i < fila.getTamanho(); i++) {
+            Dependente dependente = fila.poll();
+            dependentes[i] = dependente;
+            fila.insert(dependente);
+        }
+
+        return ResponseEntity.ok(dependentes);
     }
 
     @PostMapping("/embarque")
@@ -28,6 +38,7 @@ public class TrajetoController {
 
         Dependente dependente = DependenteMapper.toDependente(dto);
         pilha.push(dependente);
+        fila.insert(dependente);
         return ResponseEntity.ok().build();
     }
 
@@ -37,7 +48,13 @@ public class TrajetoController {
             return ResponseEntity.status(404).body("A pilha está vazia.");
         }
 
-        pilha.pop();
+        Dependente dependenteDesembarcado = pilha.pop();
+        Dependente dependenteRemovidoDaFila = fila.poll();
+
+        if (!dependenteDesembarcado.equals(dependenteRemovidoDaFila)) {
+            return ResponseEntity.status(500).body("Erro de sincronização entre pilha e fila.");
+        }
+
         return ResponseEntity.ok().build();
     }
 }
