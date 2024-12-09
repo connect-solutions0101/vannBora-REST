@@ -17,7 +17,6 @@ public record RegistroFaturaRequestDto(
         @NotNull
         boolean pago,
 
-        @NotNull
         @PastOrPresent
         LocalDate dataPagamento
 ) {

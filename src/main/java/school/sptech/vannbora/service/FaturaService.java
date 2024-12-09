@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.vannbora.entidade.Fatura;
-import school.sptech.vannbora.enums.Pago;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 import school.sptech.vannbora.repository.FaturaRepository;
 
@@ -69,5 +69,9 @@ public class FaturaService {
             () -> new RegistroNaoEncontradoException("Fatura não encontrada")
         );
         faturaRepository.deleteById(id);
+    }
+
+    public BigDecimal valorMedioPorAluno(int proprietarioServicoId) {
+        return faturaRepository.findAvgValorByResponsavelDependenteDependenteProprietarioServicoId(proprietarioServicoId);
     }
 }

@@ -2,12 +2,10 @@ package school.sptech.vannbora.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
 import school.sptech.vannbora.repository.DependenteRepository;
 import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFaturaRequestDto.Fatura;
 import school.sptech.vannbora.entidade.Dependente;
@@ -16,6 +14,7 @@ import school.sptech.vannbora.entidade.Escola;
 import school.sptech.vannbora.entidade.ProprietarioServico;
 import school.sptech.vannbora.entidade.Responsavel;
 import school.sptech.vannbora.entidade.ResponsavelDependente;
+import school.sptech.vannbora.enums.Pago;
 import school.sptech.vannbora.enums.TipoResponsavel;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 
@@ -191,5 +190,13 @@ public class DependenteService {
         faturaService.salvar(fatura, responsavelDependenteFinanceiro.getResponsavel().getId(), responsavelDependenteFinanceiro.getDependente().getId());
 
         return dependenteSalvo;        
+    }
+
+    public Integer contarPorProprietarioServicoId(int id) {
+        return repository.countByProprietarioServicoId(id);
+    }
+
+    public Integer contarPorProprietarioServicoIdEDataPagamento(int id, Pago pago, LocalDate dataInicio, LocalDate dataFim) {
+        return repository.countByProprietarioServicoIdAndResponsaveisFaturaRegistroFaturaPagoAndResponsaveisFaturaRegistroFaturaDataPagamentoBetween(id, pago, dataInicio, dataFim);
     }
 }

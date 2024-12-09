@@ -117,4 +117,8 @@ public class EscolaService {
 
         repository.deleteById(id);
     }
+
+    public Integer contarEscolasPorProprietario(int id){
+        return repository.countByProprietarioServicoId(id);
+    }
 }

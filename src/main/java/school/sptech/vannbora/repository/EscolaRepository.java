@@ -10,4 +10,6 @@ public interface EscolaRepository extends JpaRepository<Escola, Integer> {
     int countById(int id);
 
     List<Escola> findAllByProprietarioServicoId(int id);
+
+    Integer countByProprietarioServicoId(int id);
 }

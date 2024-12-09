@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.Builder;
 import school.sptech.vannbora.dto.escola.EscolaResponseDto;
 import school.sptech.vannbora.dto.responsaveldependente.ResponsavelOnlyResponseDto;
+import school.sptech.vannbora.enums.Pago;
 
 @Builder
 public record DependenteEscolaResponsaveisResponseDto(
@@ -17,7 +18,9 @@ public record DependenteEscolaResponsaveisResponseDto(
     String condicao,
     String turma,
     EscolaResponseDto escola,
-    List<ResponsavelOnlyResponseDto> responsaveis
+    List<ResponsavelOnlyResponseDto> responsaveis,
+    Pago ultimaFaturaPaga,
+    Integer ultimaFaturaId
 ) {
     
 }

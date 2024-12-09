@@ -50,6 +50,8 @@ public class DependenteMapper {
                     .map(ResponsavelDependenteMapper::toResponsavelResponseDto)
                     .collect(Collectors.toList())
             )
+            .ultimaFaturaPaga(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().get().getPago())
+            .ultimaFaturaId(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().get().getId())
             .build();
     }
 
