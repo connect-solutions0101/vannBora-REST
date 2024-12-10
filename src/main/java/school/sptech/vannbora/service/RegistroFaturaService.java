@@ -40,6 +40,10 @@ public class RegistroFaturaService {
         return registroFaturaRepository.findAllByFaturaId(faturaId);
     }
 
+    public List<RegistroFatura> listarPorProprietarioIdAndPeriodo(int proprietarioServicoId, LocalDate inicio, LocalDate fim){
+        return registroFaturaRepository.findAllByFaturaResponsavelDependenteDependenteProprietarioServicoIdAndDataPagamentoBetween(proprietarioServicoId, inicio, fim);
+    }
+
     public BigDecimal somarValorPorPeriodo(int proprietarioServicoId, LocalDate dataInicio, LocalDate dataFim) {
         return registroFaturaRepository.findSumFaturaValorByFaturaResponsavelDependenteDependenteProprietarioServicoIdAndDataPagamentoBetween(proprietarioServicoId, dataInicio, dataFim);
     }
@@ -78,5 +82,9 @@ public class RegistroFaturaService {
             result -> (Integer) result[0],
             result -> BigDecimal.valueOf((Double) result[1])
         ));
+    }
+
+    public int contarPagamentosPendentesPorEscolaId(int id) {
+        return registroFaturaRepository.countByFaturaResponsavelDependenteDependenteEscolaIdAndPago(id, Pago.NAO_PAGO);
     }
 }

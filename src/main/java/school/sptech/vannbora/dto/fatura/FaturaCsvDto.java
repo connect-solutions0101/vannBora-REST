@@ -1,5 +1,7 @@
 package school.sptech.vannbora.dto.fatura;
 
+import school.sptech.vannbora.enums.Pago;
+
 public record FaturaCsvDto (
         String nomeResponsavel,
 
@@ -11,7 +13,7 @@ public record FaturaCsvDto (
 
         Double valorPagamento,
 
-        Boolean pago
+        Pago pago
 ) {
 
 }

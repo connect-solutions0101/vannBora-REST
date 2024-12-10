@@ -15,6 +15,10 @@ public interface RegistroFaturaRepository extends JpaRepository<RegistroFatura, 
 
     List<RegistroFatura> findAllByFaturaId(int faturaId);
 
+    List<RegistroFatura> findAllByFaturaResponsavelDependenteDependenteProprietarioServicoIdAndDataPagamentoBetween(int proprietarioServicoId, LocalDate inicio, LocalDate fim);
+
+    Integer countByFaturaResponsavelDependenteDependenteEscolaIdAndPago(int id, Pago pago);
+
     @Query("SELECT SUM(rf.fatura.valor) FROM RegistroFatura rf WHERE rf.pago = :pago AND rf.fatura.responsavelDependente.dependente.proprietarioServico.id = :id AND rf.dataPagamento BETWEEN :dataInicio AND :dataFim")
     BigDecimal findSumFaturaValorByPagoAndFaturaResponsavelDependenteDependenteProprietarioServicoIdAndDataPagamentoBetween(
         @Param("pago") Pago pago, 

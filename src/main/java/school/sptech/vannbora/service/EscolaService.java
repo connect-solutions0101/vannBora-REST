@@ -21,17 +21,17 @@ public class EscolaService {
 
     private final ProprietarioServicoService proprietarioServicoService;
 
-    private final FaturaService faturaService;
+    private final RegistroFaturaService registroFaturaService;
 
     public EscolaService(EscolaRepository repository, 
                          @Lazy EnderecoService enderecoService, 
-                         @Lazy FaturaService faturaService,
-                         @Lazy ProprietarioServicoService proprietarioServicoService
+                         @Lazy ProprietarioServicoService proprietarioServicoService,
+                        @Lazy RegistroFaturaService registroFaturaService
                          ) {
         this.repository = repository;
         this.enderecoService = enderecoService;
-        this.faturaService = faturaService;
         this.proprietarioServicoService = proprietarioServicoService;
+        this.registroFaturaService = registroFaturaService;
     }
 
     public List<Escola> listar(){
@@ -43,7 +43,7 @@ public class EscolaService {
     }
 
     public int contarPagamentosPendentesPorId(int id){
-        return faturaService.contarPorIdDependenteFaturasPendentes(id);
+        return registroFaturaService.contarPagamentosPendentesPorEscolaId(id);
     }
 
     public Escola buscarPorId(int id){

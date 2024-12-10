@@ -3,9 +3,8 @@ package school.sptech.vannbora.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.sptech.vannbora.dto.fatura.FaturaCsvDto;
-import school.sptech.vannbora.entidade.Fatura;
+import school.sptech.vannbora.entidade.RegistroFatura;
 import school.sptech.vannbora.mapper.FaturaCsvMapper;
-import school.sptech.vannbora.repository.FaturaRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -17,14 +16,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FinancasService {
-    private final FaturaRepository faturaRepository;
 
-    public byte[] getFaturasCsv() throws IOException {
+    private final RegistroFaturaService registroFaturaService;
+
+    public byte[] getFaturasCsv(Integer id) throws IOException {
         YearMonth ultimoMes = YearMonth.now();
         LocalDate inicio = ultimoMes.atDay(1);
         LocalDate fim = ultimoMes.atEndOfMonth();
 
-        List<Fatura> faturas = faturaRepository.findAll();
+        List<RegistroFatura> faturas = registroFaturaService.listarPorProprietarioIdAndPeriodo(id, inicio, fim);
         List<FaturaCsvDto> faturaCsvDtos = faturas.stream()
                 .map(FaturaCsvMapper::toCsvDto)
                 .toList();
@@ -52,8 +52,9 @@ public class FinancasService {
                 dto.nomeResponsavel(),
                 dto.nomeDependente(),
                 dto.parentescoResponsavel(),
+                dto.diaPagamento(),
                 dto.valorPagamento(),
-                dto.pago() ? "Sim" : "Não"
+                dto.pago().getDescricao()
                 )
         );
 

@@ -1,17 +1,18 @@
 package school.sptech.vannbora.mapper;
 
 import school.sptech.vannbora.dto.fatura.FaturaCsvDto;
-import school.sptech.vannbora.entidade.Fatura;
+import school.sptech.vannbora.entidade.RegistroFatura;
 
 public class FaturaCsvMapper {
-    public static FaturaCsvDto toCsvDto(Fatura fatura) {
+    public static FaturaCsvDto toCsvDto(RegistroFatura registroFatura) {
         return new FaturaCsvDto(
-                fatura.getResponsavelDependente().getResponsavel().getNome(),
-                fatura.getResponsavelDependente().getDependente().getNome(),
-                fatura.getResponsavelDependente().getTipoResponsavel().toString(),
-                fatura.getDiaPagamento(),
-                fatura.getValor(),
-                null
+                
+                registroFatura.getFatura().getResponsavelDependente().getResponsavel().getNome(),
+                registroFatura.getFatura().getResponsavelDependente().getDependente().getNome(),
+                registroFatura.getFatura().getResponsavelDependente().getResponsavel().getParentesco(),
+                registroFatura.getFatura().getDiaPagamento(),
+                registroFatura.getFatura().getValor(),
+                registroFatura.getPago()
         );
     }
 }

@@ -5,9 +5,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import school.sptech.vannbora.service.FaturaService;
 import school.sptech.vannbora.service.FinancasService;
 
 import java.io.IOException;
@@ -19,10 +19,12 @@ public class FinancasController {
 
     private final FinancasService financasService;
 
-    @GetMapping("/download-csv")
-    public ResponseEntity<byte[]> downloadCsv() {
+    @GetMapping("/download-csv/{id}")
+    public ResponseEntity<byte[]> downloadCsv(
+        @PathVariable Integer id
+    ) {
         try {
-            byte[] csvContent = financasService.getFaturasCsv();
+            byte[] csvContent = financasService.getFaturasCsv(id);
 
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=faturas.csv");
