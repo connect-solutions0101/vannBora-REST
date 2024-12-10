@@ -12,6 +12,7 @@ import school.sptech.vannbora.entidade.Dependente;
 import school.sptech.vannbora.entidade.Endereco;
 import school.sptech.vannbora.entidade.Escola;
 import school.sptech.vannbora.entidade.ProprietarioServico;
+import school.sptech.vannbora.entidade.RegistroFatura;
 import school.sptech.vannbora.entidade.Responsavel;
 import school.sptech.vannbora.entidade.ResponsavelDependente;
 import school.sptech.vannbora.enums.Pago;
@@ -35,7 +36,9 @@ public class DependenteService {
 
     private final EnderecoService enderecoService;
 
-    public DependenteService(DependenteRepository repository, @Lazy EscolaService escolaService, @Lazy ProprietarioServicoService proprietarioServicoService, @Lazy FaturaService faturaService, @Lazy ResponsavelService responsavelService, @Lazy ResponsavelDependenteService responsavelDependenteService, @Lazy EnderecoService enderecoService) {
+    private final RegistroFaturaService registroFaturaService;
+
+    public DependenteService(DependenteRepository repository, @Lazy EscolaService escolaService, @Lazy ProprietarioServicoService proprietarioServicoService, @Lazy FaturaService faturaService, @Lazy ResponsavelService responsavelService, @Lazy ResponsavelDependenteService responsavelDependenteService, @Lazy EnderecoService enderecoService, @Lazy RegistroFaturaService registroFaturaService) {
         this.repository = repository;
         this.escolaService = escolaService;
         this.proprietarioServicoService = proprietarioServicoService;
@@ -43,6 +46,7 @@ public class DependenteService {
         this.responsavelService = responsavelService;
         this.responsavelDependenteService = responsavelDependenteService;
         this.enderecoService = enderecoService;
+        this.registroFaturaService = registroFaturaService;
     }
 
     public List<Dependente> listar() {
@@ -188,6 +192,17 @@ public class DependenteService {
         }
     
         faturaService.salvar(fatura, responsavelDependenteFinanceiro.getResponsavel().getId(), responsavelDependenteFinanceiro.getDependente().getId());
+
+        LocalDate dataPagamento = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), fatura.getDiaPagamento());
+
+        registroFaturaService.salvar(
+            RegistroFatura.builder()
+            .fatura(fatura)
+            .pago(Pago.NAO_PAGO)
+            .dataPagamento(dataPagamento)
+            .build(),
+            fatura.getId()
+        );
 
         return dependenteSalvo;        
     }
