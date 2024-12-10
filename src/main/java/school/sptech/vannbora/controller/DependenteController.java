@@ -2,6 +2,7 @@ package school.sptech.vannbora.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -50,8 +51,8 @@ public class DependenteController {
     }
     @Operation(summary = "Listar tudo", description = "Método lista todos os dados do dependente inseridos no banco de dados.", tags = "Dependentes Controller")
     @GetMapping("/full/{id}")
-    public ResponseEntity<List<DependenteEscolaResponsaveisResponseDto>> listarFull(@PathVariable int id) {
-        List<Dependente> dependentes = dependenteService.listarFull(id);
+    public ResponseEntity<List<DependenteEscolaResponsaveisResponseDto>> listarFull(@PathVariable int id, @RequestParam(required = false) String nome) {
+        List<Dependente> dependentes = dependenteService.listarFull(id, nome);
 
         if (dependentes.isEmpty()) return ResponseEntity.noContent().build();
 

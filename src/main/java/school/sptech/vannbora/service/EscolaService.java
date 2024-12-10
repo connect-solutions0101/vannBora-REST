@@ -42,6 +42,10 @@ public class EscolaService {
         return repository.findAllByProprietarioServicoId(id);
     }
 
+    public List<Escola> listarPorProprietarioAndFiltrarNome(int id, String nome) {
+        return repository.findAllByProprietarioServicoIdAndNomeContaining(id, nome);
+    }
+
     public int contarPagamentosPendentesPorId(int id){
         return registroFaturaService.contarPagamentosPendentesPorEscolaId(id);
     }

@@ -38,8 +38,8 @@ public class EscolaController {
     }
     @Operation(summary = "Listar Tudo", description = "Método lista alunos e dependentes.", tags = "Escola Controller")
     @GetMapping("/full/{id}")
-    public ResponseEntity<List<EscolaAlunosResponseDto>> listarFull(@PathVariable int id){
-        List<Escola> escolas = service.listarPorProprietario(id);
+    public ResponseEntity<List<EscolaAlunosResponseDto>> listarFull(@PathVariable int id, @RequestParam(required = false) String nome){
+        List<Escola> escolas = service.listarPorProprietarioAndFiltrarNome(id, nome);
 
         List<EscolaAlunosResponseDto> dtoLista = escolas.stream()
             .map(escola -> EscolaMapper.toEscolaResponseDto(escola, escola.getDependentes().size(), service.contarPagamentosPendentesPorId(escola.getId())))

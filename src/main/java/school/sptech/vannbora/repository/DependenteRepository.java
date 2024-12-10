@@ -13,6 +13,8 @@ import school.sptech.vannbora.enums.Pago;
 public interface DependenteRepository extends JpaRepository<Dependente, Integer> {
 
     List<Dependente> findAllByProprietarioServicoId(int id);
+
+    List<Dependente> findAllByProprietarioServicoIdAndNomeContaining(int id, String nome);
     
     Integer countByProprietarioServicoId(int id);
 
