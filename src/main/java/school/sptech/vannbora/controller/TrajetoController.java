@@ -34,7 +34,7 @@ public class TrajetoController {
         return ResponseEntity.ok(dependentes);
     }
 
-    @PostMapping("/embarque")
+    @PostMapping("/embarque/{id}")
     public ResponseEntity embarque(@PathVariable int id){
         if(pilha.isFull()) return ResponseEntity.status(429).body("A pilha está cheia. Desembarque um dependente para embarcar outro.");
 
