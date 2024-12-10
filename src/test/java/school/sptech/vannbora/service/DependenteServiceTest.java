@@ -50,14 +50,14 @@ class DependenteServiceTest {
         Dependente dependente = new Dependente();
         dependente.setId(1);
 
-        when(dependenteRepository.findAllByProprietarioServicoId(1)).thenReturn(List.of(dependente));
+        when(dependenteRepository.findAllByProprietarioServicoIdAndNomeContaining(1, null)).thenReturn(List.of(dependente));
 
-        List<Dependente> dependentes = dependenteService.listarFull(1);
+        List<Dependente> dependentes = dependenteService.listarFull(1, null);
 
         assertNotNull(dependentes);
         assertFalse(dependentes.isEmpty());
         assertEquals(1, dependentes.size());
-        verify(dependenteRepository, times(1)).findAllByProprietarioServicoId(1);
+        verify(dependenteRepository, times(1)).findAllByProprietarioServicoIdAndNomeContaining(1, null);
     }
 
     @Test

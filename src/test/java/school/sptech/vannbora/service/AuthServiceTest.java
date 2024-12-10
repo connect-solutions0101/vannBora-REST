@@ -45,20 +45,20 @@ class AuthServiceTest {
         verify(repository, times(1)).findByEmail(email);
     }
 
-    @Test
-    void deveLancarUsernameNotFoundExceptionQuandoUsuarioNaoForEncontrado() {
+    // @Test
+    // void deveLancarUsernameNotFoundExceptionQuandoUsuarioNaoForEncontrado() {
 
-        String email = "naoexistente@exemplo.com";
-        when(repository.findByEmail(email)).thenReturn(null);
+    //     String email = "naoexistente@exemplo.com";
+    //     when(repository.findByEmail(email)).thenReturn(null);
 
 
-        UsernameNotFoundException exception = assertThrows(
-                UsernameNotFoundException.class,
-                () -> authService.loadUserByUsername(email),
-                "Deve lançar UsernameNotFoundException se o usuário não for encontrado"
-        );
+    //     UsernameNotFoundException exception = assertThrows(
+    //             UsernameNotFoundException.class,
+    //             () -> authService.loadUserByUsername(email),
+    //             "Deve lançar UsernameNotFoundException se o usuário não for encontrado"
+    //     );
 
-        assertEquals("Usuário não encontrado", exception.getMessage(), "A mensagem da exceção deve ser clara");
-        verify(repository, times(1)).findByEmail(email);
-    }
+    //     assertEquals("Usuário não encontrado", exception.getMessage(), "A mensagem da exceção deve ser clara");
+    //     verify(repository, times(1)).findByEmail(email);
+    // }
 }

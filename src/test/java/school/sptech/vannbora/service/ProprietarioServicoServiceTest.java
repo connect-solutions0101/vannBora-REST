@@ -73,7 +73,7 @@ class ProprietarioServicoServiceTest {
         proprietarioNovo.setEmail("carlos@email.com");
         proprietarioNovo.setCpf("123.456.789-00");
         proprietarioNovo.setSenha("senha123");
-        proprietarioNovo.setRole(ProprietarioServicoRole.valueOf("ROLE_USER"));
+        proprietarioNovo.setRole(ProprietarioServicoRole.USER);
 
         when(proprietarioServicoRepository.findById(1)).thenReturn(Optional.of(proprietarioAtualMock));
         when(proprietarioServicoRepository.save(any(ProprietarioServico.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -85,7 +85,7 @@ class ProprietarioServicoServiceTest {
         assertEquals("carlos@email.com", proprietarioAtualizado.getEmail());
         assertEquals("123.456.789-00", proprietarioAtualizado.getCpf());
         assertEquals("senha123", proprietarioAtualizado.getSenha());
-        assertEquals("ROLE_USER", proprietarioAtualizado.getRole());
+        assertEquals(ProprietarioServicoRole.USER, proprietarioAtualizado.getRole());
         verify(proprietarioServicoRepository, times(1)).findById(1);
         verify(proprietarioServicoRepository, times(1)).save(any(ProprietarioServico.class));
     }
