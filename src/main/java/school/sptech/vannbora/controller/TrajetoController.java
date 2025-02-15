@@ -8,11 +8,14 @@ import school.sptech.vannbora.entidade.Dependente;
 import school.sptech.vannbora.entidade.FilaObj;
 import school.sptech.vannbora.entidade.PilhaObj;
 import school.sptech.vannbora.service.DependenteService;
+import school.sptech.vannbora.service.TrajetoService;
 
 @RestController
 @RequestMapping("/trajeto")
 @RequiredArgsConstructor
 public class TrajetoController {
+
+    private final TrajetoService trajetoService;
 
     private final DependenteService dependenteService;
 
