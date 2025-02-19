@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface TrajetoRepository extends JpaRepository<Trajeto, Integer> {
-    List<Trajeto> findByProprietarioServico(Integer id);
-    List<Trajeto> findByProprietarioServicoAndNome(Integer id, String nome);
-    List<Trajeto> findByProprietarioServicoAndPeriodo(Integer id, String periodo);
+    List<Trajeto> findByProprietarioServicoId(Integer id);
+    List<Trajeto> findByProprietarioServicoIdAndNome(Integer id, String nome);
+    List<Trajeto> findByProprietarioServicoIdAndPeriodo(Integer id, String periodo);
 }

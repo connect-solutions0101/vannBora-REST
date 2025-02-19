@@ -37,13 +37,10 @@ public class TrajetoDependente {
     @ManyToOne
     @MapsId("responsavelDependenteId")
     @JoinColumns({
-            @JoinColumn(name = "responsavel_id", referencedColumnName = "responsavelId"),
-            @JoinColumn(name = "dependente_id", referencedColumnName = "dependenteId")
+            @JoinColumn(name = "responsavel_dependente_responsavel_id"),
+            @JoinColumn(name = "responsavel_dependente_dependente_id")
     })
     private ResponsavelDependente responsavelDependente;
-
-    @Enumerated(EnumType.STRING)
-    private Periodo periodo;
 
     @Embeddable
     @Getter

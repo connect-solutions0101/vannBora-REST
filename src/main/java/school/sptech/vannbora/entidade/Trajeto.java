@@ -1,16 +1,12 @@
 package school.sptech.vannbora.entidade;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.vannbora.enums.Periodo;
 
 @Entity
 @Getter
@@ -27,8 +23,8 @@ public class Trajeto {
     @Column
     private String nome;
 
-    @Column
-    private String periodo;
+    @Enumerated(EnumType.STRING)
+    private Periodo periodo;
 
     @ManyToOne
     private ProprietarioServico proprietarioServico;

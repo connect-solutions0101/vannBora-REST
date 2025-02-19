@@ -22,6 +22,6 @@ public class TrajetoService {
     }
 
     public List<Trajeto> buscarPorProprietarioServico(Integer id) {
-        return trajetoRepository.findByProprietarioServico(id);
+        return trajetoRepository.findByProprietarioServicoId(id);
     }
 }
