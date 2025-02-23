@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.vannbora.enums.Periodo;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -25,6 +27,9 @@ public class Trajeto {
 
     @Enumerated(EnumType.STRING)
     private Periodo periodo;
+
+    @OneToMany(mappedBy = "trajeto")
+    private List<TrajetoDependente> trajetoDependentes;
 
     @ManyToOne
     private ProprietarioServico proprietarioServico;
