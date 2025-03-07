@@ -3,8 +3,6 @@ package school.sptech.vannbora.entidade;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
@@ -14,9 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import school.sptech.vannbora.entidade.ResponsavelDependente.ResponsavelDependenteId;
-import school.sptech.vannbora.enums.Periodo;
 
 @Entity
 @Getter

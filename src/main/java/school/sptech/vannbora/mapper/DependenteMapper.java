@@ -87,7 +87,7 @@ public class DependenteMapper {
                             .parentesco(responsavel.responsavel().parentesco())
                             .cpf(responsavel.responsavel().cpf())
                             .telefone(responsavel.responsavel().telefone())
-                            .endereco(Endereco.builder()
+                            .endereco(responsavel.responsavel().endereco() != null ? Endereco.builder()
                                 .id(responsavel.responsavel().endereco().id())
                                 .cep(responsavel.responsavel().endereco().cep())
                                 .logradouro(responsavel.responsavel().endereco().logradouro())
@@ -95,7 +95,7 @@ public class DependenteMapper {
                                 .bairro(responsavel.responsavel().endereco().bairro())
                                 .cidade(responsavel.responsavel().endereco().cidade())
                                 .pontoReferencia(responsavel.responsavel().endereco().pontoReferencia())
-                                .build())
+                                .build() : null)
                             .build())
                         .tipoResponsavel(TipoResponsavel.valueOf(responsavel.tipoResponsavel()))
                         .build() : null;

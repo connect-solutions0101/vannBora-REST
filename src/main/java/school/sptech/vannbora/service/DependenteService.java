@@ -94,6 +94,8 @@ public class DependenteService {
             () -> new RegistroNaoEncontradoException("Dependente não encontrado")
         );
 
+        Integer proprietarioServicoId = dependenteAtual.getProprietarioServico().getId();
+
         Escola escola = escolaService.buscarPorId(escolaId);
         dependenteAtual.setEscola(escola);
 
@@ -115,11 +117,28 @@ public class DependenteService {
         dependenteEntity.getResponsaveis().forEach(
             responsavel -> {
                 if (responsavel != null && responsavel.getResponsavel() != null) {
-                    responsavelService.atualizar(
-                        responsavel.getResponsavel().getId(),
-                        responsavel.getResponsavel(),
-                        responsavel.getResponsavel().getEndereco().getId()
-                    );
+                    if(responsavel.getResponsavel().getId() != null){
+                        responsavelService.atualizar(
+                            responsavel.getResponsavel().getId(),
+                            responsavel.getResponsavel(),
+                            responsavel.getResponsavel().getEndereco().getId()
+                        );
+                    }else{
+                        Responsavel novoResponsavel = responsavelService.cadastrar(
+                                responsavel.getResponsavel(),
+                                null,
+                                proprietarioServicoId
+                        );
+                        responsavelDependenteService.cadastrar(
+                            ResponsavelDependente.builder()
+                            .dependente(dependenteAtual)
+                            .responsavel(novoResponsavel)
+                            .tipoResponsavel(responsavel.getTipoResponsavel())
+                            .build(),
+                            novoResponsavel.getId(),
+                            dependenteAtual.getId()
+                        );
+                    }
                 }
             }
         );
