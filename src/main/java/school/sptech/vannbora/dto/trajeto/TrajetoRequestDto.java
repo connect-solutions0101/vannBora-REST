@@ -1,9 +1,10 @@
 package school.sptech.vannbora.dto.trajeto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
-import school.sptech.vannbora.entidade.ProprietarioServico;
-import school.sptech.vannbora.entidade.TrajetoDependente;
+import school.sptech.vannbora.dto.responsaveldependente.ResponsavelDependenteIdRequestDto;
 import school.sptech.vannbora.enums.Periodo;
 
 import java.util.List;
@@ -14,13 +15,14 @@ public record TrajetoRequestDto(
         @NotBlank
         String nome,
 
-        @NotBlank
+        @NotNull
         Periodo periodo,
 
-        @NotBlank
-        List<TrajetoDependente> trajetoDependentes,
+        @NotNull
+        List<ResponsavelDependenteIdRequestDto> trajetoDependentes,
 
-        @NotBlank
-        ProprietarioServico proprietarioServico
+        @NotNull
+        @Positive
+        Integer proprietarioServicoId
 ) {
 }

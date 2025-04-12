@@ -1,22 +1,15 @@
 package school.sptech.vannbora.entidade;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import school.sptech.vannbora.entidade.ResponsavelDependente.ResponsavelDependenteId;
-import school.sptech.vannbora.enums.Periodo;
 
 @Entity
 @Getter
@@ -26,30 +19,13 @@ import school.sptech.vannbora.enums.Periodo;
 @Builder
 public class TrajetoDependente {
 
-    @EmbeddedId
-    private TrajetoDependenteId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
-    @MapsId("trajetoId")
-    @JoinColumn(name = "trajeto_id")
     private Trajeto trajeto;
 
     @ManyToOne
-    @MapsId("responsavelDependenteId")
-    @JoinColumns({
-            @JoinColumn(name = "responsavel_dependente_responsavel_id"),
-            @JoinColumn(name = "responsavel_dependente_dependente_id")
-    })
     private ResponsavelDependente responsavelDependente;
-
-    @Embeddable
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class TrajetoDependenteId {
-        private Integer trajetoId;
-        private ResponsavelDependenteId responsavelDependenteId;
-    }
 }

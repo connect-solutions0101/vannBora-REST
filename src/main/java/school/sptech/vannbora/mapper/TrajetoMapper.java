@@ -25,8 +25,6 @@ public class TrajetoMapper {
         return Trajeto.builder()
                 .nome(dto.nome())
                 .periodo(dto.periodo())
-                .trajetoDependentes(dto.trajetoDependentes())
-                .proprietarioServico(dto.proprietarioServico())
                 .build();
     }
 }
