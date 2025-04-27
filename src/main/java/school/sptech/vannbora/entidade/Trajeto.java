@@ -28,7 +28,7 @@ public class Trajeto {
     @Enumerated(EnumType.STRING)
     private Periodo periodo;
 
-    @OneToMany(mappedBy = "trajeto")
+    @OneToMany(mappedBy = "trajeto", cascade = CascadeType.PERSIST)
     private List<TrajetoDependente> trajetoDependentes;
 
     @ManyToOne
