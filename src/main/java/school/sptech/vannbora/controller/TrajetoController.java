@@ -25,9 +25,9 @@ import java.util.List;
 public class TrajetoController {
     private final TrajetoService trajetoService;
 
-    @GetMapping
-    public ResponseEntity<List<TrajetoResponseDto>> listar(){
-        List<Trajeto> trajetos = trajetoService.listar();
+    @GetMapping("/{id}")
+    public ResponseEntity<List<TrajetoResponseDto>> listar(@PathVariable int id){
+        List<Trajeto> trajetos = trajetoService.buscarPorProprietarioServico(id);
 
         if (trajetos.isEmpty()) {
             return ResponseEntity.noContent().build();
