@@ -91,4 +91,10 @@ public class TrajetoService {
 
         return trajetoRepository.save(novoTrajeto);
     }
+
+    public Trajeto buscarPorTrajetoId(int id) {
+        return trajetoRepository.findById(id).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Trajeto não encontrado")
+        );
+    }
 }

@@ -38,6 +38,17 @@ public class TrajetoController {
         ).toList());
     }
 
+    @GetMapping("/{id}/single")
+    public ResponseEntity<TrajetoResponseDto> listarSingle(@PathVariable int id){
+        Trajeto trajeto = trajetoService.buscarPorTrajetoId(id);
+
+        if (trajeto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(TrajetoMapper.toResponseDto(trajeto));
+    }
+
     @PostMapping
     public ResponseEntity<TrajetoResponseDto> salvarFull(@Valid @RequestBody TrajetoRequestDto trajeto){
         Trajeto novoTrajeto = TrajetoMapper.toTrajeto(trajeto);
