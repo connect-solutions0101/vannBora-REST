@@ -71,6 +71,15 @@ public class DependenteController {
         Dependente dependente = dependenteService.buscarPorId(id);
         return ResponseEntity.ok(DependenteMapper.toDependenteResponsavelEnderecoFaturaResponseDto(dependente));
     }
+
+    @GetMapping("/proprietarioServico/{id}")
+    public ResponseEntity<List<DependenteEscolaResponsaveisResponseDto>> listarPorProprietarioServicoId(@PathVariable int id) {
+        List<Dependente> dependentes = dependenteService.listarPorProprietarioServicoId(id);
+
+        if (dependentes.isEmpty()) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(dependentes.stream().map(DependenteMapper::toDependenteEscolaResponseDto).collect(Collectors.toList()));
+    }
     
     @Operation(summary = "Salvar Dependentes", description = "Método salva o dependente inserido pelo usuário no banco de dados.", tags = "Dependentes Controller")
     @PostMapping

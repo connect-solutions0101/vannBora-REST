@@ -53,6 +53,10 @@ public class DependenteService {
         return repository.findAll();
     }
 
+    public List<Dependente> listarPorProprietarioServicoId(int id) {
+        return repository.findAllByProprietarioServicoId(id);
+    }
+
     public List<Dependente> listarFull(int id, String nome) {
         return repository.findAllByProprietarioServicoIdAndNomeContaining(id, nome);
     }
