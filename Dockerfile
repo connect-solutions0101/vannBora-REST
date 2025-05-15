@@ -6,6 +6,7 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 COPY --from=builder /build/target/*.jar app.jar
+COPY .env .env
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
 
@@ -16,5 +17,8 @@ CMD ["java", "-jar", "app.jar"]
 #1
 # sudo docker build -t vannbora/backend:dev .
 
-#2
+#2 Se não tiver o container use:
 # docker run -it -p 80:80 --name vannbora_backend vannbora/backend:dev
+
+#Se tiver o container use:
+#docker start -a vannbora_backend
