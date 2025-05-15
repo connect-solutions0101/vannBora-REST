@@ -1,5 +1,6 @@
 package school.sptech.vannbora.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.sptech.vannbora.dto.responsaveldependente.ResponsavelDependenteIdRequestDto;
@@ -9,6 +10,7 @@ import school.sptech.vannbora.entidade.TrajetoDependente;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 import school.sptech.vannbora.repository.TrajetoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +21,8 @@ public class TrajetoService {
     private final ResponsavelDependenteService responsavelDependenteService;
 
     private final ProprietarioServicoService proprietarioServicoService;
+
+    private final TrajetoDependenteService trajetoDependenteService;
 
     public List<Trajeto> listar() {
         return trajetoRepository.findAll();
@@ -96,5 +100,28 @@ public class TrajetoService {
         return trajetoRepository.findById(id).orElseThrow(
                 () -> new RegistroNaoEncontradoException("Trajeto não encontrado")
         );
+    }
+
+    public Trajeto popular(Integer trajetoId, List<ResponsavelDependenteIdRequestDto> dependentes) {
+        Trajeto trajeto = buscarPorTrajetoId(trajetoId);
+        
+        List<ResponsavelDependente> responsavelDependentes = dependentes.stream()
+                .map(
+                        responsavelDependenteIdRequestDto -> responsavelDependenteService.buscarPorId(
+                                responsavelDependenteIdRequestDto.idResponsavel(), responsavelDependenteIdRequestDto.idDependente()
+                        )
+                )
+                .toList();
+
+        List<TrajetoDependente> trajetoDependentes = responsavelDependentes.stream()
+                .map(responsavelDependente -> TrajetoDependente.builder()
+                        .responsavelDependente(responsavelDependente)
+                        .trajeto(trajeto)
+                        .build())
+                .toList();
+
+        trajetoDependentes.forEach(trajetoDependenteService::salvar);
+
+        return buscarPorTrajetoId(trajetoId);
     }
 }

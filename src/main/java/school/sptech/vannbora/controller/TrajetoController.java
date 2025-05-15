@@ -3,13 +3,7 @@ package school.sptech.vannbora.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import school.sptech.vannbora.dto.responsaveldependente.ResponsavelDependenteIdRequestDto;
 import school.sptech.vannbora.dto.trajeto.TrajetoRequestDto;
 import school.sptech.vannbora.dto.trajeto.TrajetoResponseDto;
@@ -69,6 +63,12 @@ public class TrajetoController {
                         )
                 )
         );
+    }
+
+    @PostMapping("/popular/{trajetoId}")
+    public ResponseEntity<TrajetoResponseDto> popular(@PathVariable Integer trajetoId, @RequestBody List<ResponsavelDependenteIdRequestDto> dependentes){
+        Trajeto trajeto = trajetoService.popular(trajetoId, dependentes);
+        return ResponseEntity.ok(TrajetoMapper.toResponseDto(trajeto));
     }
 
 //    @PutMapping("/{id}")
