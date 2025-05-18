@@ -8,10 +8,13 @@ import school.sptech.vannbora.entidade.ResponsavelDependente;
 import school.sptech.vannbora.entidade.Trajeto;
 import school.sptech.vannbora.entidade.TrajetoDependente;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
+import school.sptech.vannbora.exception.TransacaoNaoAutorizadaException;
 import school.sptech.vannbora.repository.TrajetoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -102,10 +105,30 @@ public class TrajetoService {
         );
     }
 
-    public Trajeto popular(Integer trajetoId, List<ResponsavelDependenteIdRequestDto> dependentes) {
+    public Trajeto popular(Integer trajetoId, List<ResponsavelDependenteIdRequestDto> newDependentes) {
         Trajeto trajeto = buscarPorTrajetoId(trajetoId);
-        
-        List<ResponsavelDependente> responsavelDependentes = dependentes.stream()
+
+        Map<Boolean, List<ResponsavelDependenteIdRequestDto>> partitioned = newDependentes.stream()
+                .collect(Collectors.partitioningBy(dependente -> trajeto.getTrajetoDependentes().stream()
+                        .noneMatch(trajetoDependente -> trajetoDependente.getResponsavelDependente().getDependente().getId().equals(dependente.idDependente()))
+                ));
+
+        // Elementos que atendem ao filtro
+        List<ResponsavelDependenteIdRequestDto> dependentesToSave = partitioned.get(true);
+
+        // Elementos que não atendem ao filtro
+        List<ResponsavelDependenteIdRequestDto> dependentesRejeitados = partitioned.get(false);
+
+        if (!dependentesRejeitados.isEmpty()) {
+            String ids = dependentesRejeitados.stream()
+                    .map(ResponsavelDependenteIdRequestDto::idDependente)
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(", "));
+
+            throw new TransacaoNaoAutorizadaException("Dependente(s) " + ids + " já estão associados a este trajeto.");
+        }
+
+        List<ResponsavelDependente> responsavelDependentes = dependentesToSave.stream()
                 .map(
                         responsavelDependenteIdRequestDto -> responsavelDependenteService.buscarPorId(
                                 responsavelDependenteIdRequestDto.idResponsavel(), responsavelDependenteIdRequestDto.idDependente()

@@ -72,26 +72,8 @@ public class TrajetoController {
     }
 
 //    @PutMapping("/{id}")
-//    public ResponseEntity<Trajeto> atualizar(@PathVariable int id, @Valid @RequestBody TrajetoRequestDto trajeto){
-//        Trajeto trajetoAtualizado = TrajetoMapper.toTrajeto(trajeto);
+//    public ResponseEntity<Trajeto> atualizar(@PathVariable int id, @Valid @RequestBody List<ResponsavelDependenteIdRequestDto> trajetoDependentes){
 //
-//        List<ResponsavelDependenteIdRequestDto> dependentes = trajeto.trajetoDependentes().stream()
-//                .map( ids -> new ResponsavelDependenteIdRequestDto(
-//                                ids.idResponsavel(),
-//                                ids.idDependente()
-//                        )
-//                )
-//                .toList();
-//
-//        return ResponseEntity.ok(
-////                TrajetoMapper.toResponseDto(
-//                        trajetoService.atualizar(
-//                                id,
-//                                trajetoAtualizado,
-//                                dependentes
-//                        )
-////                )
-//        );
 //    }
 
     @DeleteMapping("{id}")
