@@ -6,6 +6,8 @@ import school.sptech.vannbora.entidade.TrajetoDependente;
 import school.sptech.vannbora.exception.RegistroNaoEncontradoException;
 import school.sptech.vannbora.repository.TrajetoDepenteRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TrajetoDependenteService {
@@ -24,5 +26,9 @@ public class TrajetoDependenteService {
 
     public void deletar(TrajetoDependente trajetoDependente) {
         trajetoDepenteRepository.delete(trajetoDependente);
+    }
+
+    public List<TrajetoDependente> buscarPorTrajetoId(Integer trajetoId) {
+        return trajetoDepenteRepository.findByTrajetoId(trajetoId);
     }
 }
