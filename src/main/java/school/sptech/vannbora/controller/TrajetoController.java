@@ -3,13 +3,7 @@ package school.sptech.vannbora.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import school.sptech.vannbora.dto.responsaveldependente.ResponsavelDependenteIdRequestDto;
 import school.sptech.vannbora.dto.trajeto.TrajetoRequestDto;
 import school.sptech.vannbora.dto.trajeto.TrajetoResponseDto;
@@ -38,6 +32,17 @@ public class TrajetoController {
         ).toList());
     }
 
+    @GetMapping("/{id}/single")
+    public ResponseEntity<TrajetoResponseDto> listarSingle(@PathVariable int id){
+        Trajeto trajeto = trajetoService.buscarPorTrajetoId(id);
+
+        if (trajeto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(TrajetoMapper.toResponseDto(trajeto));
+    }
+
     @PostMapping
     public ResponseEntity<TrajetoResponseDto> salvarFull(@Valid @RequestBody TrajetoRequestDto trajeto){
         Trajeto novoTrajeto = TrajetoMapper.toTrajeto(trajeto);
@@ -60,28 +65,15 @@ public class TrajetoController {
         );
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Trajeto> atualizar(@PathVariable int id, @Valid @RequestBody TrajetoRequestDto trajeto){
-//        Trajeto trajetoAtualizado = TrajetoMapper.toTrajeto(trajeto);
-//
-//        List<ResponsavelDependenteIdRequestDto> dependentes = trajeto.trajetoDependentes().stream()
-//                .map( ids -> new ResponsavelDependenteIdRequestDto(
-//                                ids.idResponsavel(),
-//                                ids.idDependente()
-//                        )
-//                )
-//                .toList();
-//
-//        return ResponseEntity.ok(
-////                TrajetoMapper.toResponseDto(
-//                        trajetoService.atualizar(
-//                                id,
-//                                trajetoAtualizado,
-//                                dependentes
-//                        )
-////                )
-//        );
-//    }
+    @PostMapping("/popular/{trajetoId}")
+    public ResponseEntity<TrajetoResponseDto> popular(@PathVariable Integer trajetoId, @RequestBody List<ResponsavelDependenteIdRequestDto> dependentes){
+        if(dependentes.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        Trajeto trajeto = trajetoService.popular(trajetoId, dependentes);
+        return ResponseEntity.ok(TrajetoMapper.toResponseDto(trajeto));
+    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id){

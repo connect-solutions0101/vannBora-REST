@@ -8,11 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TrajetoDepenteRepository extends JpaRepository<TrajetoDependente, Integer> {
-
-    List<TrajetoDependente> findByResponsavelDependente_Responsavel_Id(Integer responsavelId);
-
-    List<TrajetoDependente> findByResponsavelDependente_Dependente_Id(Integer dependenteId);
-
-    List<TrajetoDependente> findByTrajeto_Id(Integer trajetoId);
-
+    List<TrajetoDependente> findByTrajetoId(Integer trajetoId);
 }

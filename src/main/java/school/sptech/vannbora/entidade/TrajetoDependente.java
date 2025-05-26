@@ -1,10 +1,6 @@
 package school.sptech.vannbora.entidade;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +20,13 @@ public class TrajetoDependente {
     private Integer id;
 
     @ManyToOne
+    @JoinColumn(name = "trajeto_id")
     private Trajeto trajeto;
 
     @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "responsavel_dependente_responsavel_id", referencedColumnName = "responsavel_id"),
+            @JoinColumn(name = "responsavel_dependente_dependente_id", referencedColumnName = "dependente_id")
+    })
     private ResponsavelDependente responsavelDependente;
 }
