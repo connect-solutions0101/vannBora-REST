@@ -67,32 +67,13 @@ public class TrajetoController {
 
     @PostMapping("/popular/{trajetoId}")
     public ResponseEntity<TrajetoResponseDto> popular(@PathVariable Integer trajetoId, @RequestBody List<ResponsavelDependenteIdRequestDto> dependentes){
+        if(dependentes.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
         Trajeto trajeto = trajetoService.popular(trajetoId, dependentes);
         return ResponseEntity.ok(TrajetoMapper.toResponseDto(trajeto));
     }
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Trajeto> atualizar(@PathVariable int id, @Valid @RequestBody TrajetoRequestDto trajeto){
-//        Trajeto trajetoAtualizado = TrajetoMapper.toTrajeto(trajeto);
-//
-//        List<ResponsavelDependenteIdRequestDto> dependentes = trajeto.trajetoDependentes().stream()
-//                .map( ids -> new ResponsavelDependenteIdRequestDto(
-//                                ids.idResponsavel(),
-//                                ids.idDependente()
-//                        )
-//                )
-//                .toList();
-//
-//        return ResponseEntity.ok(
-////                TrajetoMapper.toResponseDto(
-//                        trajetoService.atualizar(
-//                                id,
-//                                trajetoAtualizado,
-//                                dependentes
-//                        )
-////                )
-//        );
-//    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletar(@PathVariable int id){
