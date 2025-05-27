@@ -36,6 +36,9 @@ public class Responsavel {
     @Column
     private String parentesco;
 
+    @Column
+    private String telegram;
+
     @ManyToOne
     private Endereco endereco;
     
