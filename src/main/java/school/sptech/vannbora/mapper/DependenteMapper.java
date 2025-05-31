@@ -31,6 +31,7 @@ public class DependenteMapper {
             .turma(dependente.getTurma())
             .proprietarioServicoId(dependente.getProprietarioServico().getId())
             .escolaId(dependente.getEscola().getId())
+            .escola(EscolaMapper.toEscolaResponseDto(dependente.getEscola()))
             .build();
     }
 

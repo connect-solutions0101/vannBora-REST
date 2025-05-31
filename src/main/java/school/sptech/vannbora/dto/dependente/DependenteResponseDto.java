@@ -3,6 +3,7 @@ package school.sptech.vannbora.dto.dependente;
 import java.time.LocalDate;
 
 import lombok.Builder;
+import school.sptech.vannbora.dto.escola.EscolaResponseDto;
 import school.sptech.vannbora.enums.Turno;
 
 @Builder
@@ -15,7 +16,8 @@ public record DependenteResponseDto(
     String condicao,
     String turma,
     int proprietarioServicoId,
-    int escolaId
+    int escolaId,
+    EscolaResponseDto escola
 ) {
     
 }
