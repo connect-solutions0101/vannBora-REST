@@ -199,6 +199,22 @@ public class DependenteService {
 
         LocalDate dataPagamento = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), fatura.getDiaPagamento());
 
+        int quantidadeParcelas = fatura.getQuantidadeParcelas();
+
+        while(quantidadeParcelas > 0) {
+            dataPagamento = dataPagamento.plusMonths(1);
+            registroFaturaService.salvar(
+                RegistroFatura.builder()
+                .fatura(fatura)
+                .pago(Pago.NAO_PAGO)
+                .dataPagamento(dataPagamento)
+                .build(),
+                fatura.getId()
+            );
+
+            quantidadeParcelas--;
+        }
+
         registroFaturaService.salvar(
             RegistroFatura.builder()
             .fatura(fatura)
