@@ -29,4 +29,7 @@ public class TrajetoDependente {
             @JoinColumn(name = "responsavel_dependente_dependente_id", referencedColumnName = "dependente_id")
     })
     private ResponsavelDependente responsavelDependente;
+
+    @Column()
+    private Integer ordem;
 }

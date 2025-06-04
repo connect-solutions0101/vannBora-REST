@@ -92,6 +92,15 @@ public class TrajetoService {
                         .build())
                 .toList();
 
+        for (TrajetoDependente trajetoDependente : trajetoDependentes) {
+            for (ResponsavelDependenteIdRequestDto dependente : dependentes) {
+                if (trajetoDependente.getResponsavelDependente().getResponsavel().getId().equals(dependente.idResponsavel()) &&
+                        trajetoDependente.getResponsavelDependente().getDependente().getId().equals(dependente.idDependente())) {
+                    trajetoDependente.setOrdem(dependente.ordem());
+                }
+            }
+        }
+
         trajetoDependentes.forEach(trajetoDependenteService::salvar);
 
         return buscarPorTrajetoId(trajetoId);
