@@ -10,6 +10,7 @@ public class TrajetoDependenteMapper {
         return TrajetoDependenteResponseDto.builder()
                 .id(trajetoDependente.getId())
                 .responsavelDependente(ResponsavelDependenteMapper.toResponseDto(trajetoDependente.getResponsavelDependente()))
+                .ordem(trajetoDependente.getOrdem())
                 .build();
     }
 

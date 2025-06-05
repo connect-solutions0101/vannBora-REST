@@ -49,7 +49,8 @@ public class TrajetoController {
         List<ResponsavelDependenteIdRequestDto> dependentes = trajeto.trajetoDependentes().stream()
                 .map( ids -> new ResponsavelDependenteIdRequestDto(
                         ids.idResponsavel(),
-                        ids.idDependente()
+                        ids.idDependente(),
+                        ids.ordem()
                     )
                 )
                 .toList();

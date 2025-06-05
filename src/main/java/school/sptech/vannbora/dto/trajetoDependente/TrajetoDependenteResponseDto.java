@@ -6,6 +6,7 @@ import school.sptech.vannbora.dto.responsaveldependente.ResponsavelDependenteRes
 @Builder
 public record TrajetoDependenteResponseDto(
         Integer id,
-        ResponsavelDependenteResponseDto responsavelDependente
+        ResponsavelDependenteResponseDto responsavelDependente,
+        Integer ordem
 ) {
 }
