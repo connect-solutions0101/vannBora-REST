@@ -162,14 +162,13 @@ public class DependenteService {
         ProprietarioServico proprietarioServico = proprietarioServicoService.buscarPorId(idProprietario);
         
         Endereco enderecoSalvo = enderecoService.cadastrar(endereco);
-        
 
         Escola escola = escolaService.buscarPorId(escolaId);
         dependenteEntity.setEscola(escola);
         dependenteEntity.setProprietarioServico(proprietarioServico);
         Dependente dependenteSalvo = repository.save(dependenteEntity);
-        
-        responsavelFinanceiro = responsavelService.cadastrar(responsavelFinanceiro, enderecoSalvo.getId(), idProprietario);
+
+        responsavelFinanceiro = validarResponsavel(responsavelFinanceiro, enderecoSalvo.getId(), idProprietario);
 
         ResponsavelDependente responsavelDependenteFinanceiro = responsavelDependenteService.cadastrar(
             ResponsavelDependente.builder()
@@ -182,7 +181,7 @@ public class DependenteService {
         );
 
         if (responsavelSecundario != null) {
-            responsavelSecundario = responsavelService.cadastrar(responsavelSecundario, null, idProprietario);
+            responsavelSecundario = validarResponsavel(responsavelSecundario, null, idProprietario);
 
             responsavelDependenteService.cadastrar(
                 ResponsavelDependente.builder()
@@ -198,11 +197,14 @@ public class DependenteService {
         faturaService.salvar(fatura, responsavelDependenteFinanceiro.getResponsavel().getId(), responsavelDependenteFinanceiro.getDependente().getId());
 
         LocalDate dataPagamento = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), fatura.getDiaPagamento());
+        if (dataPagamento.isBefore(LocalDate.now())) {
+            dataPagamento = dataPagamento.plusMonths(1);
+        }
 
         int quantidadeParcelas = fatura.getQuantidadeParcelas();
 
         while(quantidadeParcelas > 0) {
-            dataPagamento = dataPagamento.plusMonths(1);
+
             registroFaturaService.salvar(
                 RegistroFatura.builder()
                 .fatura(fatura)
@@ -211,6 +213,8 @@ public class DependenteService {
                 .build(),
                 fatura.getId()
             );
+
+            dataPagamento = dataPagamento.plusMonths(1);
 
             quantidadeParcelas--;
         }
@@ -225,6 +229,18 @@ public class DependenteService {
         );
 
         return dependenteSalvo;        
+    }
+
+    private Responsavel validarResponsavel(Responsavel responsavel, Integer enderecoId, Integer proprietarioServicoId) {
+        if (responsavel == null || responsavel.getCpf() == null || responsavel.getCpf().isEmpty()) {
+            throw new IllegalArgumentException("Responsável ou CPF inválido");
+        }
+
+        try {
+            return responsavelService.buscarPorCpf(responsavel.getCpf());
+        } catch (RegistroNaoEncontradoException e) {
+            return responsavelService.cadastrar(responsavel, enderecoId, proprietarioServicoId);
+        }
     }
 
     public Integer contarPorProprietarioServicoId(int id) {

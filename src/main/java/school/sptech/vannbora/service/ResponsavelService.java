@@ -31,6 +31,12 @@ public class ResponsavelService {
         );
     }
 
+    public Responsavel buscarPorCpf(String cpf){
+        return repository.findByCpf(cpf).orElseThrow(
+            () -> new RegistroNaoEncontradoException("Responsável não encontrado")
+        );
+    }
+
     public Responsavel cadastrar(Responsavel responsavel, Integer enderecoId, int proprietarioServicoId){
         if(enderecoId != null){
             Endereco endereco = enderecoService.buscarPorId(enderecoId);

@@ -45,7 +45,7 @@ public class RegistroEmbarqueDesembarqueController {
 
     @Operation(summary = "Cadastrar registro de embarque e desembarque", description = "Método cadastra o registro de embarque e desembarque", tags = "Registro embarque desembarque Controller")
     @PostMapping
-    public ResponseEntity<RegistroEmbarqueDesembarqueResponseDto> cadastrar(@Valid @RequestBody RegistroEmbarqueDesembarqueRequestDto dto){
+    public ResponseEntity<RegistroEmbarqueDesembarqueResponseDto> cadastrar(@RequestBody RegistroEmbarqueDesembarqueRequestDto dto){
         RegistroEmbarqueDesembarque registro = RegistroEmbarqueDesembarqueMapper.toEntity(dto);
 
         return ResponseEntity.created(null).body(RegistroEmbarqueDesembarqueMapper.toResponseDto(service.salvar(registro, dto.responsavelId(), dto.dependenteId())));
