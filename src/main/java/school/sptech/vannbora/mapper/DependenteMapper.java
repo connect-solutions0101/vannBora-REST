@@ -1,9 +1,6 @@
 package school.sptech.vannbora.mapper;
 
 
-import java.time.LocalDate;
-import java.util.stream.Collectors;
-
 import school.sptech.vannbora.dto.dependente.DependenteEscolaResponsaveisResponseDto;
 import school.sptech.vannbora.dto.dependente.DependenteRequestDto;
 import school.sptech.vannbora.dto.dependente.DependenteResponsavelEnderecoFaturaRequestDto;
@@ -17,6 +14,9 @@ import school.sptech.vannbora.entidade.ResponsavelDependente;
 import school.sptech.vannbora.entidade.ResponsavelDependente.ResponsavelDependenteId;
 import school.sptech.vannbora.enums.TipoResponsavel;
 import school.sptech.vannbora.enums.Turno;
+
+import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 public class DependenteMapper {
 
@@ -52,8 +52,36 @@ public class DependenteMapper {
                     .map(ResponsavelDependenteMapper::toResponsavelResponseDto)
                     .collect(Collectors.toList())
             )
-            .ultimaFaturaPaga(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().orElse(new RegistroFatura(null, null, null, null)).getPago())
-            .ultimaFaturaId(dependente.getResponsaveis().stream().filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO)).findFirst().get().getFatura().get(0).getRegistroFatura().stream().filter(rf -> rf.getDataPagamento().getMonthValue() == LocalDate.now().getMonthValue()).findFirst().orElse(new RegistroFatura(null, null, null, null)).getId())
+            .ultimaFaturaPaga(
+                    dependente.getResponsaveis().stream()
+                            .filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO))
+                            .findFirst()
+                            .flatMap(r -> r.getFatura().get(0).getRegistroFatura().stream()
+                                    .filter(rf ->
+                                            rf.getDataPagamento().getMonth().equals(LocalDate.now().getMonth()) &&
+                                                    rf.getDataPagamento().getYear() == LocalDate.now().getYear() &&
+                                                    rf.getDataPagamento().isAfter(LocalDate.now())
+                                    )
+                                    .min((f1, f2) -> f1.getDataPagamento().compareTo(f2.getDataPagamento()))
+                            )
+                            .orElse(new RegistroFatura(null, null, null, null))
+                            .getPago()
+            )
+            .ultimaFaturaId(
+                dependente.getResponsaveis().stream()
+                        .filter(r -> r.getTipoResponsavel().equals(TipoResponsavel.FINANCEIRO))
+                        .findFirst()
+                        .flatMap(r -> r.getFatura().get(0).getRegistroFatura().stream()
+                                .filter(rf ->
+                                        rf.getDataPagamento().getMonth().equals(LocalDate.now().getMonth()) &&
+                                                rf.getDataPagamento().getYear() == LocalDate.now().getYear() &&
+                                                rf.getDataPagamento().isAfter(LocalDate.now())
+                                )
+                                .min((f1, f2) -> f1.getDataPagamento().compareTo(f2.getDataPagamento()))
+                        )
+                        .orElse(new RegistroFatura(null, null, null, null))
+                        .getId()
+            )
             .build();
     }
 

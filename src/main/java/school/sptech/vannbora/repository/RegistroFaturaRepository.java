@@ -43,12 +43,12 @@ public interface RegistroFaturaRepository extends JpaRepository<RegistroFatura, 
     @Query("SELECT MONTH(rf.dataPagamento) AS mes, SUM(rf.fatura.valor) AS total FROM RegistroFatura rf WHERE rf.fatura.responsavelDependente.dependente.proprietarioServico.id = :id AND YEAR(rf.dataPagamento) = YEAR(CURRENT_DATE) GROUP BY MONTH(rf.dataPagamento)")
     List<Object[]> findRecebimentoEsperadoDoAnoAtualPorMes(@Param("id") int id);
 
-    @Query("SELECT DAY(rf.dataPagamento) AS dia, SUM(rf.fatura.valor) AS total FROM RegistroFatura rf WHERE rf.fatura.responsavelDependente.dependente.proprietarioServico.id = :id AND MONTH(rf.dataPagamento) = MONTH(CURRENT_DATE) AND rf.pago = :pago GROUP BY DAY(rf.dataPagamento)")
+    @Query("SELECT DAY(rf.dataPagamento) AS dia, SUM(rf.fatura.valor) AS total FROM RegistroFatura rf WHERE rf.fatura.responsavelDependente.dependente.proprietarioServico.id = :id AND YEAR(rf.dataPagamento) = YEAR(CURRENT_DATE) AND MONTH(rf.dataPagamento) = MONTH(CURRENT_DATE) AND rf.pago = :pago GROUP BY DAY(rf.dataPagamento)")
     List<Object[]> findRecebimentoRealDoMesAtualPorDia(
         @Param("id") int id,
         @Param("pago") Pago pago
     );
 
-    @Query("SELECT DAY(rf.dataPagamento) AS dia, SUM(rf.fatura.valor) AS total FROM RegistroFatura rf WHERE rf.fatura.responsavelDependente.dependente.proprietarioServico.id = :id AND MONTH(rf.dataPagamento) = MONTH(CURRENT_DATE) GROUP BY DAY(rf.dataPagamento)")
+    @Query("SELECT DAY(rf.dataPagamento) AS dia, SUM(rf.fatura.valor) AS total FROM RegistroFatura rf WHERE rf.fatura.responsavelDependente.dependente.proprietarioServico.id = :id AND YEAR(rf.dataPagamento) = YEAR(CURRENT_DATE) AND MONTH(rf.dataPagamento) = MONTH(CURRENT_DATE) GROUP BY DAY(rf.dataPagamento)")
     List<Object[]> findRecebimentoEsperadoDoMesAtualPorDia(@Param("id") int id);
 }
