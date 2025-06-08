@@ -1,5 +1,6 @@
 package school.sptech.vannbora.dto.registroembarquedesembarque;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
@@ -11,6 +12,7 @@ public record RegistroEmbarqueDesembarqueRequestDto(
 
         @NotNull(message = "a data não pode ser nula.")
         @PastOrPresent(message = "a data deve ser na data presente ou passada.")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime dataHora,
 
         @NotNull(message = "O tipo não pode ser nulo.")
