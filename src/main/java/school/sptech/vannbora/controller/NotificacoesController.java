@@ -16,7 +16,7 @@ public class NotificacoesController {
     }
 
     @PostMapping("/enviar")
-    public ResponseEntity<String> enviar(@RequestParam String mensagem){
+    public ResponseEntity<String> enviar(@RequestBody String mensagem){
         boolean sucesso = notificacoesService.enviarMensagem(mensagem);
         if (sucesso) {
             return ResponseEntity.ok("Mensagem enviada com sucesso!");
